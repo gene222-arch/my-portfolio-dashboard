@@ -1,16 +1,23 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import App from './App';
-import { BrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
+import { HistoryRouter } from "redux-first-history/rr6";
+import { history, persistor, store } from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.render(
     <React.StrictMode>
-        <BrowserRouter>
+        <HistoryRouter history={ history }>
 			<Suspense fallback={ <div>Loading...</div> }>
-                <App />
+                <PersistGate persistor={ persistor }>
+                    <Provider store={ store }>
+                        <App />
+                    </Provider>
+                </PersistGate>
             </Suspense>
-        </BrowserRouter>
+        </HistoryRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );

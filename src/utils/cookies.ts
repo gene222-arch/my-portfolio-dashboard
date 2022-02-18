@@ -25,3 +25,5 @@ export const get = (name: string): string|null =>
 }
 
 export const has = (name: string): boolean => get(name) ? true : false;
+
+export const removeToken = () => document.cookie = "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
