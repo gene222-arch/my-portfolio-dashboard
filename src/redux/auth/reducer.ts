@@ -4,6 +4,7 @@ import { ActionType, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCEEDED, LOGOUT_FAILED, 
 const isLoading = false;
 const error = undefined;
 const user = {
+    id: 0,
     name: '',
     email: ''
 };

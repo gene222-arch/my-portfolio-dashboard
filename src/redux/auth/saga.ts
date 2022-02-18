@@ -24,7 +24,6 @@ function* loginSaga(credentials: Credential)
         yield put(push(DASHBOARD_PATH));
     } catch (error: any) {
         const errorMessage: LoginFailedResponse = getErrorMessage(error);
-
         yield put(loginFailed(errorMessage));
     }
 }
@@ -33,7 +32,6 @@ function* logoutSaga()
 {
     try {
         const result: LogoutSuccessResponse = yield call(Api.logout);
-        const { data } = result;
         
         Cookies.removeToken();
         yield put(logoutSucceeded(result));
