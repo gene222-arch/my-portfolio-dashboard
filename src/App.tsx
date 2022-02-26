@@ -7,6 +7,8 @@ import DashboardLayout from './views/layouts/DashboardLayout';
 import { authSelector } from './redux/auth/selectors';
 import { connect } from 'react-redux';
 import { AuthState } from './types/states/auth/AuthState';
+import { ThemeProvider } from '@mui/material/styles';
+import muiTheme from './config/muiTheme';
 
 interface Prop {
     authState: AuthState
@@ -15,7 +17,7 @@ interface Prop {
 const App = ({ authState }: Prop) => 
 {
     return (
-        <div>
+        <ThemeProvider theme={ muiTheme }>
             <CssBaseline />
             {
                 !authState.isAuthenticated && (
@@ -31,7 +33,7 @@ const App = ({ authState }: Prop) =>
                     </DashboardLayout>
                 )
             }
-        </div>
+        </ThemeProvider>
     )  
 };
 
