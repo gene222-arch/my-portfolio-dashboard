@@ -7,7 +7,6 @@ interface Prop {
 const AuthLayout = ({ children }: Prop) => {
     return (
         <div>
-            AuthLayout
             { children }
         </div>
     );

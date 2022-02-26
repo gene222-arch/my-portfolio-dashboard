@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
 import { createStructuredSelector } from 'reselect';
 import { authSelector, errorSelector } from './../../redux/auth/selectors';
 import { connect, useDispatch } from 'react-redux';
@@ -18,20 +17,8 @@ import { AuthState } from '../../types/states/auth/AuthState';
 import { loginStart } from './../../redux/auth/action.creators';
 import { getError, hasError } from '../../utils/errorHandling';
 import { LoginFailedResponse } from '../../types/states/auth/LoginFailedResponse';
-
-const Copyright = (props: any) =>
-{
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-};
+import Copyright from './../../components/auth/Copyright';
+import { Alert } from '@mui/material';
 
 interface Prop {
     authState: AuthState,
@@ -88,7 +75,14 @@ const LoginPage = ({ authState, authStateError }: Prop) =>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                    {
+                        hasError(authStateError) && (
+                            <Alert severity="error" sx={{ my: 1, width: '100%' }}>
+                                { getError(authStateError) }
+                            </Alert>
+                        )
+                    }
+                    <Box component="form" noValidate onSubmit={handleSubmit}>
                     <TextField
                         margin="normal"
                         required
