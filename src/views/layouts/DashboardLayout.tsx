@@ -11,12 +11,13 @@ import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
 import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCheckCircleRounded';
-import MailIcon from '@mui/icons-material/Mail';
+import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { createStructuredSelector } from 'reselect';
 import { authSelector } from './../../redux/auth/selectors';
 import { connect } from 'react-redux';
 import { AuthState } from '../../types/states/auth/AuthState';
-import { ListItemButton, Tooltip } from '@mui/material';
+import { ListItemButton, Tooltip, Grid, Avatar, IconButton } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -46,10 +47,11 @@ const closedMixin = (theme: Theme): CSSObject =>
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up('sm')]: {
         width: `calc(${theme.spacing(9)} + 1px)`,
-    }
+    },
 });
 
 const DrawerHeader = styled('div')(({ theme }) => ({
+    marginTop: '1rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -66,6 +68,7 @@ const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
     })<AppBarProps>(({ theme, open }) => 
     ({
+        padding: '0.5rem 0',
         zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
@@ -125,11 +128,28 @@ const DashboardLayout = ({ authState, children }: Prop) =>
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <AppBar position="fixed" open={open} elevation={ 1 }>
+            <AppBar position="fixed" open={open} elevation={ 0 }>
                 <Toolbar>
                     <Typography variant="subtitle1" noWrap component="div">
                         Good day! { authState.user.name }
                     </Typography>
+                    <Grid container spacing={ 1 } alignItems='center' justifyContent='flex-end'>
+                        <Grid item>
+                            <IconButton>
+                                <SearchOutlinedIcon />
+                            </IconButton>
+                        </Grid>
+                        <Grid item>
+                            <IconButton>
+                                <NotificationsActiveOutlinedIcon />
+                            </IconButton>
+                        </Grid>
+                        <Grid item>
+                            <IconButton>
+                                <Avatar src='https://cdn-icons-png.flaticon.com/512/147/147144.png' />
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>
