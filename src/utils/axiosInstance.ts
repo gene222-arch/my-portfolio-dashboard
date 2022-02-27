@@ -16,7 +16,7 @@ const axiosInstance = (): AxiosInstance =>
         const accessToken = Cookies.get('accessToken');
         
         if (accessToken) {
-            headers.Authorization = accessToken;
+            headers.Authorization = `Bearer ${ accessToken }`;
         }
     }
 

@@ -12,7 +12,7 @@ export type LoginSuccessResponse = TypeOverride<ApiBaseResponse, {
         access_token: string,
         token_type: string,
         expired_at: string,
-        data: User
+        data: Pick<User, "id" | "email" | "name">
     };
     message: Partial<Message> | string;
 }>;

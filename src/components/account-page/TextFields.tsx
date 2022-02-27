@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { Avatar, TextField, Button } from '@mui/material';
+import { createStructuredSelector } from 'reselect';
+import { userSelector } from './../../redux/auth/selectors';
+import { connect } from 'react-redux';
+import { User } from '../../types/states/auth/User';
 
-const TextFields = () => 
+interface Prop {
+    userState: User
+}
+
+const TextFields = ({ userState }: Prop) => 
 {
     const [ isFocusedOnName, setIsFocusedOnName ] = useState(false);
     const [ isFocusedOnEmail, setIsFocusedOnEmail ] = useState(false);
@@ -25,17 +33,17 @@ const TextFields = () =>
             <Grid item>
                 <TextField
                     label='Your Name'
-                    value='Gene Phillip D. Artista'
+                    value={ userState.name }
                     variant={ isFocusedOnName ? 'standard' : 'filled' }
                     fullWidth
                     onFocus={ () => setIsFocusedOnName(! isFocusedOnName) }
                     onMouseLeave={ () => setIsFocusedOnName(false) }
-                />
+                />  
             </Grid>
             <Grid item>
                 <TextField
                     label='Your Email'
-                    value='genephillip222@gmail.com'
+                    value={ userState.email }
                     variant={ isFocusedOnEmail ? 'standard' : 'filled' }
                     fullWidth
                     onFocus={ () => setIsFocusedOnEmail(! isFocusedOnEmail) }
@@ -130,4 +138,8 @@ const TextFields = () =>
     );
 };
 
-export default TextFields;
+const mapStateToProps = createStructuredSelector({
+    userState: userSelector
+});
+
+export default connect(mapStateToProps)(TextFields);

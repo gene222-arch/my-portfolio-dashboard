@@ -6,17 +6,31 @@ import { LoginSuccessResponse } from '../../types/states/auth/LoginSuccessRespon
 import { LogoutFailedResponse } from '../../types/states/auth/LogoutFailedResponse';
 import { LogoutSuccessResponse } from '../../types/states/auth/LogoutSuccessResponse';
 import { getErrorMessage } from '../../utils/errorHandling';
-import * as Api from './../../apis/auth/login';
+import * as LoginApi from './../../apis/auth/login';
+import * as AccountApi from './../../apis/auth/account';
 import * as Cookies from './../../utils/cookies';
-import { loginSucceeded, loginFailed, logoutSucceeded, logoutFailed } from './action.creators';
-import { LOGIN_START, LOGOUT_START } from './action.types';
+import { loginSucceeded, loginFailed, logoutSucceeded, logoutFailed, getAccountDetailsSucceeded, getAccountDetailsFailed } from './action.creators';
+import { LOGIN_START, LOGOUT_START, GET_ACCOUNT_DETAILS_START } from './action.types';
 import { LOGIN_PATH } from './../../routes/path';
+import { GetAccountDetailSuccessResponse } from '../../types/states/auth/GetAccountDetailSuccessResponse';
+import { GetAccountDetailFailedResponse } from '../../types/states/auth/GetAccountDetailFailedResponse';
 
+function* getAccountDetailsSaga(userID: number) 
+{
+    try {
+        const result: GetAccountDetailSuccessResponse = yield call(AccountApi.getAccountDetails, userID);
+        console.log(result);
+        yield put(getAccountDetailsSucceeded(result));
+    } catch (error: any) {
+        const errorMessage: GetAccountDetailFailedResponse = getErrorMessage(error);
+        yield put(getAccountDetailsFailed(errorMessage));
+    }
+}
 
 function* loginSaga(credentials: Credential) 
 {
     try {
-        const result: LoginSuccessResponse = yield call(Api.login, credentials);
+        const result: LoginSuccessResponse = yield call(LoginApi.login, credentials);
         const { data } = result;
         
         Cookies.set('accessToken', data.access_token, data.expired_at);
@@ -31,7 +45,7 @@ function* loginSaga(credentials: Credential)
 function* logoutSaga() 
 {
     try {
-        const result: LogoutSuccessResponse = yield call(Api.logout);
+        const result: LogoutSuccessResponse = yield call(LoginApi.logout);
         
         Cookies.removeToken();
         yield put(logoutSucceeded(result));
@@ -40,6 +54,14 @@ function* logoutSaga()
         const errorMessage: LogoutFailedResponse = getErrorMessage(error);
 
         yield put(logoutFailed(errorMessage));
+    }
+}
+
+function* getAccountDetailsWatcher() 
+{
+    while (true) {
+        const { payload } = yield take(GET_ACCOUNT_DETAILS_START);
+        yield call(getAccountDetailsSaga, payload);
     }
 }
 
@@ -63,6 +85,7 @@ function* logoutWatcher()
 export default function* ()
 {
     yield all([
+        getAccountDetailsWatcher(),
         loginWatcher(),
         logoutWatcher()
     ]);
