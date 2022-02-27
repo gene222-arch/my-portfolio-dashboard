@@ -1,9 +1,21 @@
-import React from 'react'
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import TextFields from './../../components/account-page/TextFields';
 
-const AccountPage = () => {
+const AccountPage = () => 
+{
     return (
-        <div>AccountPage</div>
+        <Container maxWidth="lg">
+            <Grid container spacing={1}>
+                <Grid item>
+                    <TextFields />
+                </Grid>
+                <Grid item>
+
+                </Grid>
+            </Grid>
+        </Container>
     );
 };
 
-export default AccountPage
+export default AccountPage;

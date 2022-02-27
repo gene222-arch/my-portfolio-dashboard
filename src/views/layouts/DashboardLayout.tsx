@@ -18,6 +18,8 @@ import { authSelector } from './../../redux/auth/selectors';
 import { connect } from 'react-redux';
 import { AuthState } from '../../types/states/auth/AuthState';
 import { ListItemButton, Tooltip, Grid, Avatar, IconButton } from '@mui/material';
+import { ACCOUNT_PATH, DASHBOARD_PATH } from '../../routes/path';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -105,15 +107,18 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const drawers = [
     {
         name: 'Dashboard',
-        icon: DashboardRoundedIcon
+        icon: DashboardRoundedIcon,
+        path: DASHBOARD_PATH
     },
     {
         name: 'Account',
-        icon: PersonRoundedIcon
+        icon: PersonRoundedIcon,
+        path: ACCOUNT_PATH
     },
     {
         name: 'Projects',
-        icon: PlaylistAddCheckCircleRoundedIcon
+        icon: PlaylistAddCheckCircleRoundedIcon,
+        path: ''
     }
 ];
 
@@ -125,6 +130,7 @@ interface Prop {
 const DashboardLayout = ({ authState, children }: Prop) =>
 {
     const open = false;
+    const navigate = useNavigate();
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -156,7 +162,7 @@ const DashboardLayout = ({ authState, children }: Prop) =>
                 <DrawerHeader />
                 <Divider />
                 <List>
-                    {drawers.map(({ name, icon: Icon }, index) => (
+                    {drawers.map(({ name, icon: Icon, path }, index) => (
                         <Tooltip key={ index } title={ name } placement='right'>
                             <ListItemButton
                                 sx={{
@@ -166,6 +172,7 @@ const DashboardLayout = ({ authState, children }: Prop) =>
                                         borderRight: `0.25rem solid #ec5b53`
                                     }
                                 }}
+                                onClick={ () => navigate(path) }
                             >
                                 <ListItemIcon>
                                     <Icon />
