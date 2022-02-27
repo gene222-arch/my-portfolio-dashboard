@@ -12,15 +12,42 @@ interface Prop {
 
 const TextFields = ({ userState }: Prop) => 
 {
-    const [ isFocusedOnName, setIsFocusedOnName ] = useState(false);
-    const [ isFocusedOnEmail, setIsFocusedOnEmail ] = useState(false);
-    const [ isFocusedOnContact, setIsFocusedOnContact ] = useState(false);
-    const [ isFocusedOnAddress, setIsFocusedOnAddress ] = useState(false);
-    const [ isFocusedOnCity, setIsFocusedOnCity ] = useState(false);
-    const [ isFocusedOnState, setIsFocusedOnState ] = useState(false);
-    const [ isFocusedOnZipCode, setIsFocusedOnZipCode ] = useState(false);
-    const [ isFocusedOnCountry, setIsFocusedOnCountry ] = useState(false);
-    const [ isFocusedOnPassword, setIsFocusedOnPassword ] = useState(false);
+    const [ user, setUser ] = useState<User>(userState);
+
+    const handleChangeUser = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => 
+    {
+        const { name, value } = e.target;
+
+        setUser({
+            ...user,
+            [name]: value    
+        });
+    };
+
+    const handleChangeDetails = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => 
+    {
+        const { name, value } = e.target;
+
+        setUser({
+            ...user,
+            details: {
+                phone_number: value
+            }
+        });
+    };
+
+    const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => 
+    {
+        const { name, value } = e.target;
+
+        setUser({
+            ...user,
+            address: {
+                ...user.address,
+                [name]: value
+            }
+        });
+    };
 
     return (
         <Grid container spacing={5} flexDirection='column'>
@@ -32,64 +59,64 @@ const TextFields = ({ userState }: Prop) =>
             </Grid>
             <Grid item>
                 <TextField
+                    name='name'
                     label='Your Name'
-                    value={ userState.name }
-                    variant={ isFocusedOnName ? 'standard' : 'filled' }
+                    variant='filled'
                     fullWidth
-                    onFocus={ () => setIsFocusedOnName(! isFocusedOnName) }
-                    onMouseLeave={ () => setIsFocusedOnName(false) }
+                    value={ user.name }
+                    onChange={ handleChangeUser }
                 />  
             </Grid>
             <Grid item>
                 <TextField
+                    name='email'
                     label='Your Email'
-                    value={ userState.email }
-                    variant={ isFocusedOnEmail ? 'standard' : 'filled' }
+                    value={ user.email }
+                    variant='filled'
                     fullWidth
-                    onFocus={ () => setIsFocusedOnEmail(! isFocusedOnEmail) }
-                    onMouseLeave={ () => setIsFocusedOnEmail(false) }
+                    onChange={ handleChangeUser }
                 />
             </Grid>
             <Grid item>
                 <TextField
+                    name='phone_number'
                     label='Contact Number'
-                    value='09154082715'
-                    variant={ isFocusedOnContact ? 'standard' : 'filled' }
+                    value={ user.details?.phone_number }
+                    variant='filled'    
                     fullWidth
-                    onFocus={ () => setIsFocusedOnContact(! isFocusedOnContact) }
-                    onMouseLeave={ () => setIsFocusedOnContact(false) }
+                    onChange={ handleChangeDetails }
                 />
             </Grid>
             <Grid item>
                 <TextField
+                    name='address'
                     label='Address'
-                    value='134 Daisy Street, Barangay Lingga'
-                    variant={ isFocusedOnAddress ? 'standard' : 'filled' }
+                    value={ user.address?.address }
+                    variant='filled'
                     fullWidth
-                    onFocus={ () => setIsFocusedOnAddress(! isFocusedOnAddress) }
-                    onMouseLeave={ () => setIsFocusedOnAddress(false) }
+                    onChange={ handleChangeUser }
                 />
             </Grid>
             <Grid item>
                 <Grid container spacing={1} justifyContent='space-between'>
                     <Grid item>
                         <TextField
+                            name='city'
                             label='City'
-                            value='Calamba'
-                            variant={ isFocusedOnCity ? 'standard' : 'filled' }
+                            value={ user.address?.city }
+                            variant='filled'
                             fullWidth
-                            onFocus={ () => setIsFocusedOnCity(! isFocusedOnCity) }
-                            onMouseLeave={ () => setIsFocusedOnCity(false) }
+                            onChange={ handleChangeAddress }
                         />
                     </Grid>
                     <Grid item>
                         <TextField
+                            name='state'
                             label='State'
-                            value='Laguna'
-                            variant={ isFocusedOnState ? 'standard' : 'filled' }
+                            value={ user.address?.state }
+                            variant='filled'
                             fullWidth
-                            onFocus={ () => setIsFocusedOnState(! isFocusedOnState) }
-                            onMouseLeave={ () => setIsFocusedOnState(false) }
+                            onChange={ handleChangeAddress }
                         />
                     </Grid>
                 </Grid>
@@ -98,22 +125,22 @@ const TextFields = ({ userState }: Prop) =>
                 <Grid container spacing={1} justifyContent='space-between'>
                     <Grid item>
                         <TextField
+                            name='zip_code'
                             label='Zip Code'
-                            value='4027'
-                            variant={ isFocusedOnZipCode ? 'standard' : 'filled' }
+                            value={ user.address?.zip_code }
+                            variant='filled'
                             fullWidth
-                            onFocus={ () => setIsFocusedOnZipCode(! isFocusedOnZipCode) }
-                            onMouseLeave={ () => setIsFocusedOnZipCode(false) }
+                            onChange={ handleChangeAddress }
                         />
                     </Grid>
                     <Grid item>
                         <TextField
+                            name='country'
                             label='Country'
-                            value='Philippines'
-                            variant={ isFocusedOnCountry ? 'standard' : 'filled' }
+                            value={ user.address?.country }
+                            variant='filled'
                             fullWidth
-                            onFocus={ () => setIsFocusedOnCountry(! isFocusedOnCountry) }
-                            onMouseLeave={ () => setIsFocusedOnCountry(false) }
+                            onChange={ handleChangeAddress }
                         />
                     </Grid>
                 </Grid>
@@ -123,10 +150,8 @@ const TextFields = ({ userState }: Prop) =>
                     label='Password'
                     type='password'
                     value='GeneArtista09264774547'
-                    variant={ isFocusedOnPassword ? 'standard' : 'filled' }
+                    variant='filled'
                     fullWidth
-                    onFocus={ () => setIsFocusedOnPassword(! isFocusedOnPassword) }
-                    onMouseLeave={ () => setIsFocusedOnPassword(false) }
                 />
             </Grid>
             <Grid item>
