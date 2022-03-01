@@ -71,8 +71,22 @@ const reducer = (state = initialState, action: ActionType) =>
             };
 
         case UPDATE_ACCOUNT_DETAILS_SUCCEEDED:
+            const {
+                address,
+                details,
+                social_media_accounts,
+                ...userData
+            } = action.payload?.data;
+            
             return {
                 ...state,
+                user: {
+                    ...state.user,
+                    ...userData,
+                    address,
+                    details,
+                    social_media_accounts
+                },
                 isLoading,
                 error
             };
