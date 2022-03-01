@@ -1,6 +1,6 @@
 import { AuthState } from '../../types/states/auth/AuthState';
 import { User } from '../../types/states/auth/User';
-import { ActionType, GET_ACCOUNT_DETAILS_FAILED, GET_ACCOUNT_DETAILS_START, GET_ACCOUNT_DETAILS_SUCCEEDED, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCEEDED, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCEEDED } from './action.types'
+import { ActionType, GET_ACCOUNT_DETAILS_FAILED, GET_ACCOUNT_DETAILS_START, GET_ACCOUNT_DETAILS_SUCCEEDED, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCEEDED, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCEEDED, UPDATE_ACCOUNT_DETAILS_FAILED, UPDATE_ACCOUNT_DETAILS_START, UPDATE_ACCOUNT_DETAILS_SUCCEEDED } from './action.types'
 
 const isLoading = false;
 const error = undefined;
@@ -18,13 +18,7 @@ const user: User = {
     details: {
         phone_number: ''
     },
-    social_media_accounts: {
-        id: 0,
-        user_id: 0,
-        name: '',
-        email: '',
-        url: ''
-    }
+    social_media_accounts: []
 };
 
 const initialState: AuthState = {
@@ -41,6 +35,7 @@ const reducer = (state = initialState, action: ActionType) =>
         case GET_ACCOUNT_DETAILS_START:
         case LOGIN_START:
         case LOGOUT_START:
+        case UPDATE_ACCOUNT_DETAILS_START:
             return { 
                 ...state, 
                 isLoading: true 
@@ -49,13 +44,18 @@ const reducer = (state = initialState, action: ActionType) =>
         case GET_ACCOUNT_DETAILS_SUCCEEDED:
             return {
                 ...state,
-                user: action.payload.data
+                user: action.payload.data,
+                isLoading,
+                error
             };
 
         case LOGIN_SUCCEEDED:
             return {
                 ...state,
-                user: action.payload.data.data,
+                user: {
+                    ...state.user,
+                    ...action.payload.data.data
+                },
                 isAuthenticated: true,
                 isLoading,
                 error
@@ -70,9 +70,17 @@ const reducer = (state = initialState, action: ActionType) =>
                 error
             };
 
+        case UPDATE_ACCOUNT_DETAILS_SUCCEEDED:
+            return {
+                ...state,
+                isLoading,
+                error
+            };
+
         case GET_ACCOUNT_DETAILS_FAILED:
         case LOGIN_FAILED:
         case LOGOUT_FAILED:
+        case UPDATE_ACCOUNT_DETAILS_FAILED:
             return {
                 ...state,
                 isLoading,

@@ -1,18 +1,36 @@
 import { useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { Avatar, TextField, Button } from '@mui/material';
+import { Avatar, TextField, Button, CircularProgress } from '@mui/material';
 import { createStructuredSelector } from 'reselect';
-import { userSelector } from './../../redux/auth/selectors';
-import { connect } from 'react-redux';
+import { authSelector } from './../../redux/auth/selectors';
+import { connect, useDispatch } from 'react-redux';
+import { updateAccountDetailsStart } from '../../redux/auth/action.creators';
+import { UpdateAccountDetailsPayload } from '../../types/states/auth/UpdateAccountDetailsPayload';
+import { AuthState } from '../../types/states/auth/AuthState';
 import { User } from '../../types/states/auth/User';
 
 interface Prop {
-    userState: User
+    authState: AuthState
 }
 
-const TextFields = ({ userState }: Prop) => 
+const TextFields = ({ authState }: Prop) => 
 {
-    const [ user, setUser ] = useState<User>(userState);
+    const dispatch = useDispatch();
+    const [ user, setUser ] = useState<User>(authState.user);
+
+    const handleClickSave = () => 
+    {
+        const { address, details, social_media_accounts, ...userData } = user;
+
+        const payload = {
+            ...userData,
+            ...address,
+            ...details,
+            social_media_accounts
+        };
+
+        dispatch(updateAccountDetailsStart(payload));
+    };
 
     const handleChangeUser = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => 
     {
@@ -147,6 +165,7 @@ const TextFields = ({ userState }: Prop) =>
             </Grid>
             <Grid item>
                 <TextField
+                    name='password'
                     label='Password'
                     type='password'
                     value='GeneArtista09264774547'
@@ -155,8 +174,12 @@ const TextFields = ({ userState }: Prop) =>
                 />
             </Grid>
             <Grid item>
-                <Button variant="contained">
-                    Save
+                <Button variant="contained" onClick={ handleClickSave } sx={{ width: '5rem', height: '2.25rem' }}>
+                    {
+                        authState.isLoading 
+                            ? <CircularProgress color='inherit' size={ 25 } />
+                            : 'Save'
+                    }
                 </Button>
             </Grid>
         </Grid>
@@ -164,7 +187,7 @@ const TextFields = ({ userState }: Prop) =>
 };
 
 const mapStateToProps = createStructuredSelector({
-    userState: userSelector
+    authState: authSelector
 });
 
 export default connect(mapStateToProps)(TextFields);

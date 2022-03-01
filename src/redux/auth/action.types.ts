@@ -5,6 +5,9 @@ import { LoginFailedResponse } from "../../types/states/auth/LoginFailedResponse
 import { LoginSuccessResponse } from "../../types/states/auth/LoginSuccessResponse";
 import { LogoutFailedResponse } from "../../types/states/auth/LogoutFailedResponse";
 import { LogoutSuccessResponse } from "../../types/states/auth/LogoutSuccessResponse";
+import { UpdateAccountDetailsPayload } from "../../types/states/auth/UpdateAccountDetailsPayload";
+import { UpdateAccountFailedResponse } from "../../types/states/auth/UpdateAccountFailedResponse";
+import { UpdateAccountSuccessResponse } from "../../types/states/auth/UpdateAccountSuccessResponse";
 
 export const GET_ACCOUNT_DETAILS_START = 'GET_ACCOUNT_DETAILS_START';
 export const GET_ACCOUNT_DETAILS_SUCCEEDED = 'GET_ACCOUNT_DETAILS_SUCCEEDED';
@@ -15,6 +18,9 @@ export const LOGIN_FAILED = 'LOGIN_FAILED';
 export const LOGOUT_START = 'LOGOUT_START';
 export const LOGOUT_SUCCEEDED = 'LOGOUT_SUCCEEDED';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+export const UPDATE_ACCOUNT_DETAILS_START = 'UPDATE_ACCOUNT_DETAILS_START';
+export const UPDATE_ACCOUNT_DETAILS_SUCCEEDED = 'UPDATE_ACCOUNT_DETAILS_SUCCEEDED';
+export const UPDATE_ACCOUNT_DETAILS_FAILED = 'UPDATE_ACCOUNT_DETAILS_FAILED';
 
 export type ActionType = 
     | { type: undefined }
@@ -26,4 +32,7 @@ export type ActionType =
     | { type: typeof LOGIN_FAILED, payload: LoginFailedResponse }
     | { type: typeof LOGOUT_START }
     | { type: typeof LOGOUT_SUCCEEDED, payload: LogoutSuccessResponse }
-    | { type: typeof LOGOUT_FAILED, payload: LogoutFailedResponse };
+    | { type: typeof LOGOUT_FAILED, payload: LogoutFailedResponse }
+    | { type: typeof UPDATE_ACCOUNT_DETAILS_START, payload: UpdateAccountDetailsPayload }
+    | { type: typeof UPDATE_ACCOUNT_DETAILS_SUCCEEDED, payload: UpdateAccountSuccessResponse }
+    | { type: typeof UPDATE_ACCOUNT_DETAILS_FAILED, payload: UpdateAccountFailedResponse };
