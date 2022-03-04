@@ -1,0 +1,11 @@
+import { TypeOverride } from "../../TypeOverride";
+import { ApiBaseResponse } from "../ApiBaseResponse";
+
+export type GetPageReportSuccessResponse = TypeOverride<ApiBaseResponse, {
+    data: {
+        id: number,
+        views: number,
+        sent_mails: number
+    };
+    message: string;
+}>;
