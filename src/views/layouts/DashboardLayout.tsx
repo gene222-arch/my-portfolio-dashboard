@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -20,6 +20,7 @@ import { AuthState } from '../../types/states/auth/AuthState';
 import { ListItemButton, Tooltip, Grid, Avatar, IconButton } from '@mui/material';
 import { ACCOUNT_PATH, DASHBOARD_PATH } from '../../routes/path';
 import { useNavigate } from 'react-router-dom';
+import AccountMenu from '../../components/dashboard/AccountMenu';
 
 const drawerWidth = 240;
 
@@ -129,11 +130,14 @@ interface Prop {
 
 const DashboardLayout = ({ authState, children }: Prop) =>
 {
+    const [ anchorEl, setAnchorEl ] = useState<null | HTMLElement>(null);
+
     const open = false;
     const navigate = useNavigate();
 
     return (
         <Box sx={{ display: 'flex' }}>
+            <AccountMenu anchorEl={ anchorEl } setAnchorEl={ setAnchorEl } />
             <AppBar position="fixed" open={open} elevation={ 0 }>
                 <Toolbar>
                     <Typography variant="subtitle1" noWrap component="div">
@@ -151,7 +155,9 @@ const DashboardLayout = ({ authState, children }: Prop) =>
                             </IconButton>
                         </Grid>
                         <Grid item>
-                            <IconButton>
+                            <IconButton 
+                                onClick={ e => setAnchorEl(e.currentTarget) }
+                            >
                                 <Avatar src='https://cdn-icons-png.flaticon.com/512/147/147144.png' />
                             </IconButton>
                         </Grid>
