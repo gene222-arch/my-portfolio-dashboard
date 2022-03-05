@@ -4,7 +4,7 @@ import { DASHBOARD_PATH, LOGIN_PATH, ACCOUNT_PATH, PROJECT_PATH } from './path';
 const DashboardPage = lazy(() => import('./../views/app/DashboardPage'));
 const LoginPage = lazy(() => import('./../views/app/LoginPage'));
 const AccountPage = lazy(() => import('./../views/app/AccountPage'));
-const ProjectPage = lazy(() => import('./../views/app/ProjectPage'));
+const ProjectPage = lazy(() => import('./../views/app/project'));
 
 export const publicRoutes: Route[] = 
 [

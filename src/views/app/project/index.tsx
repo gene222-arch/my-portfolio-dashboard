@@ -1,14 +1,14 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridRenderCellParams } from '@mui/x-data-grid';
 import { useDispatch, connect } from 'react-redux';
-import { getProjectsStart } from './../../redux/project/action.creators';
+import { getProjectsStart } from './../../../redux/project/action.creators';
 import { createStructuredSelector } from 'reselect';
-import { projectSelector } from './../../redux/project/selectors';
-import { ProjectState } from '../../types/states/project/ProjectState';
+import { projectSelector } from './../../../redux/project/selectors';
+import { ProjectState } from '../../../types/states/project/ProjectState';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { IconButton, Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
-import { CREATE_PROJECT_PATH, EDIT_PROJECT_PATH } from '../../routes/path';
+import { CREATE_PROJECT_PATH, EDIT_PROJECT_PATH } from '../../../routes/path';
 
 
 const renderCell = (params: GridRenderCellParams<any, any, any>) => (
