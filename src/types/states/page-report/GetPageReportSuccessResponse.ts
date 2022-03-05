@@ -6,7 +6,8 @@ export type GetPageReportSuccessResponse = TypeOverride<ApiBaseResponse, {
         id: number,
         views: number,
         likes: number,
-        sent_mails: number
+        sent_mails: number,
+        projects: number
     };
     message: string;
 }>;

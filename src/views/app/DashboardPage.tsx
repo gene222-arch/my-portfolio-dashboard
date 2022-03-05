@@ -4,6 +4,12 @@ import Card from '../../components/dashboard/Card';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import PlaylistAddCheckCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCheckCircleOutlined';
 import { Divider } from '@mui/material';
+import { useDispatch, connect } from 'react-redux';
+import { getPageReportStart } from '../../redux/page-report/action.creators';
+import { useEffect } from 'react';
+import { createStructuredSelector } from 'reselect';
+import { pageReportSelector } from './../../redux/page-report/selectors';
+import { PageReportState } from '../../types/states/page-report/PageReportState';
 
 const defaultData = [
 	{
@@ -20,26 +26,21 @@ const defaultData = [
 		label: 'Views',
 		value: '100, 530',
 		icon: RemoveRedEyeOutlinedIcon
-	},
-	{
-		label: 'Projects',
-		value: 15,
-		icon: PlaylistAddCheckCircleOutlinedIcon
-	},
-	{
-		label: 'Views',
-		value: '100, 530',
-		icon: RemoveRedEyeOutlinedIcon
-	},
-	{
-		label: 'Projects',
-		value: 15,
-		icon: PlaylistAddCheckCircleOutlinedIcon
 	}
 ];
 
-const DashboardPage = () => 
+interface Prop {
+	pageReportState: PageReportState
+}
+
+const DashboardPage = ({ pageReportState }: Prop) => 
 {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getPageReportStart());
+	}, []);
+
     return (
         <Container maxWidth="lg">
             <Grid container spacing={ 4 } justifyContent='center'>
@@ -56,4 +57,8 @@ const DashboardPage = () =>
     );
 };
 
-export default DashboardPage
+const mapStateToProps = createStructuredSelector({
+	pageReportState: pageReportSelector
+});
+
+export default connect(mapStateToProps)(DashboardPage);

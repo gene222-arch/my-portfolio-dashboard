@@ -3,7 +3,8 @@ export type PageReportState = {
         id: number,
         likes: number,
         views: number,
-        sent_mails: number
+        sent_mails: number,
+        projects: number
     },
     isLoading: boolean,
     error: any

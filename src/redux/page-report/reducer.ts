@@ -9,7 +9,8 @@ const initialState: PageReportState = {
         id: 0,
         likes: 0,
         views: 0,
-        sent_mails: 0
+        sent_mails: 0,
+        projects: 0
     },
     isLoading,
     error
