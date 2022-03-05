@@ -1,15 +1,8 @@
 import { Card as MuiCard, CardContent, Grid, IconButton, SvgIconTypeMap, Typography } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { GeneralAnalytic } from '../../views/app/DashboardPage';
 
-interface Prop {
-    label: string,
-    value: string | number,
-    icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
-        muiName: string;
-    }
-}
-
-const Card = ({ label, value, icon: Icon }: Prop) => 
+const Card = ({ label, value, icon: Icon }: GeneralAnalytic) => 
 {
     return (
         <MuiCard 
