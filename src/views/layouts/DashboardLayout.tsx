@@ -18,7 +18,7 @@ import { authSelector } from './../../redux/auth/selectors';
 import { connect } from 'react-redux';
 import { AuthState } from '../../types/states/auth/AuthState';
 import { ListItemButton, Tooltip, Grid, Avatar, IconButton } from '@mui/material';
-import { ACCOUNT_PATH, DASHBOARD_PATH } from '../../routes/path';
+import { ACCOUNT_PATH, DASHBOARD_PATH, PROJECT_PATH } from '../../routes/path';
 import { useNavigate } from 'react-router-dom';
 import AccountMenu from '../../components/dashboard/AccountMenu';
 
@@ -119,7 +119,7 @@ const drawers = [
     {
         name: 'Projects',
         icon: PlaylistAddCheckCircleRoundedIcon,
-        path: ''
+        path: PROJECT_PATH
     }
 ];
 
