@@ -91,6 +91,7 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop)
                             fullWidth
                             variant='filled'
                             onChange={ handleChange }
+                            value={ project.title }
                         />
                         <TextField
                             name='description'
@@ -101,6 +102,7 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop)
                             multiline
                             rows={ 9 }
                             onChange={ handleChange }
+                            value={ project.description }
                         />
                     </Grid>
                     <Grid item xs={ 12 } sm={ 8 }>
@@ -131,6 +133,7 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop)
                             fullWidth
                             variant='filled'
                             onChange={ handleChange }
+                            value={ project?.website_url || '' }
                         />
                     </Grid>
                     <Grid item xs={ 12 } sm={ 12 }>
@@ -142,6 +145,7 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop)
                             multiline
                             rows={ 5 }
                             onChange={ handleChange }
+                            value={ project.client_feedback }
                         />
                     </Grid>
                     <Grid item xs={ 12 } sm={ 12 }>
