@@ -18,9 +18,10 @@ import { authSelector } from './../../redux/auth/selectors';
 import { connect } from 'react-redux';
 import { AuthState } from '../../types/states/auth/AuthState';
 import { ListItemButton, Tooltip, Grid, Avatar, IconButton } from '@mui/material';
-import { ACCOUNT_PATH, DASHBOARD_PATH, PROJECT_PATH } from '../../routes/path';
+import { ACCOUNT_PATH, DASHBOARD_PATH, PROJECT_PATH, TESTIMONIAL_PATH } from '../../routes/path';
 import { useNavigate } from 'react-router-dom';
 import AccountMenu from '../../components/dashboard/AccountMenu';
+import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 
 const drawerWidth = 240;
 
@@ -120,6 +121,11 @@ const drawers = [
         name: 'Projects',
         icon: PlaylistAddCheckCircleRoundedIcon,
         path: PROJECT_PATH
+    },
+    {
+        name: 'Testimonials',
+        icon: ChatRoundedIcon,
+        path: TESTIMONIAL_PATH
     }
 ];
 
