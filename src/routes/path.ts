@@ -4,3 +4,6 @@ export const ACCOUNT_PATH = '/account';
 export const PROJECT_PATH = '/projects';
 export const CREATE_PROJECT_PATH ='/projects/create-new-project';
 export const EDIT_PROJECT_PATH = '/projects/:id/edit';
+export const TESTIMONIAL_PATH = '/testimonials';
+export const CREATE_TESTIMONIAL_PATH = '/testimonials/create-new-testimonial';
+export const EDIT_TESTIMONIAL_PATH = '/testimonials/:id/edit';

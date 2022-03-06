@@ -1,6 +1,17 @@
 import { lazy } from "react";
 import { Route } from "../types/route";
-import { DASHBOARD_PATH, LOGIN_PATH, ACCOUNT_PATH, PROJECT_PATH, CREATE_PROJECT_PATH, EDIT_PROJECT_PATH } from './path';
+import { 
+    DASHBOARD_PATH, 
+    LOGIN_PATH, 
+    ACCOUNT_PATH, 
+    PROJECT_PATH, 
+    CREATE_PROJECT_PATH, 
+    EDIT_PROJECT_PATH, 
+    TESTIMONIAL_PATH, 
+    CREATE_TESTIMONIAL_PATH, 
+    EDIT_TESTIMONIAL_PATH 
+} from './path';
+
 const DashboardPage = lazy(() => import('./../views/app/DashboardPage'));
 const LoginPage = lazy(() => import('./../views/app/LoginPage'));
 const AccountPage = lazy(() => import('./../views/app/AccountPage'));
@@ -8,6 +19,10 @@ const AccountPage = lazy(() => import('./../views/app/AccountPage'));
 const ProjectPage = lazy(() => import('./../views/app/project'));
 const CreateProjectPage = lazy(() => import('../views/app/project/CreateProjectPage'));
 const EditProjectPage = lazy(() => import('../views/app/project/EditProjectPage'));
+/** Testimonial */
+const TestimonialPage = lazy(() => import('./../views/app/testimonial'));
+const CreateTestimonialPage = lazy(() => import('../views/app/testimonial/CreateTestimonialPage'));
+const EditTestimonialPage = lazy(() => import('../views/app/testimonial/EditTestimonialPage'));
 
 export const publicRoutes: Route[] = 
 [
@@ -49,6 +64,24 @@ export const privateRoutes: Route[] =
         key: 'Edit Project Page',
         path: EDIT_PROJECT_PATH,
         component: EditProjectPage,
+        private: true
+    },
+    {
+        key: 'Testimonial',
+        path: TESTIMONIAL_PATH,
+        component: TestimonialPage,
+        private: true
+    },
+    {
+        key: 'Create Testimonial Page',
+        path: CREATE_TESTIMONIAL_PATH,
+        component: CreateTestimonialPage,
+        private: true
+    },
+    {
+        key: 'Edit Testimonial Page',
+        path: EDIT_TESTIMONIAL_PATH,
+        component: EditTestimonialPage,
         private: true
     }
 ];
