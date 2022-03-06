@@ -3,9 +3,14 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { TestimonialItemType } from '../../types/states/testimonial/TestimonialState';
-import { FormControl, InputLabel, MenuItem, Select, Rating } from '@mui/material';
+import { TestimonialItemType, TestimonialState } from '../../types/states/testimonial/TestimonialState';
+import { FormControl, InputLabel, MenuItem, Select, Rating, FormHelperText } from '@mui/material';
 import SaveCancelButtons from '../SaveCancelButtons';
+import { createStructuredSelector } from 'reselect';
+import { testimonialSelector } from './../../redux/testimonial/selectors';
+import { connect } from 'react-redux';
+import { hasError } from '../../utils/errorHandling';
+import { getError } from './../../utils/errorHandling';
 
 const professions = [
     'Doctor',
@@ -16,6 +21,7 @@ const professions = [
 ];
 
 interface Prop {
+    testimonialState: TestimonialState,
     actionText: string,
     testimonial: TestimonialItemType,
     setTestimonial: React.Dispatch<React.SetStateAction<TestimonialItemType>>,
@@ -23,8 +29,9 @@ interface Prop {
     isLoading: boolean
 }
 
-const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, isLoading }: Prop) => 
+const InputFieldSection = ({ testimonialState, actionText, testimonial, setTestimonial, onSubmit, isLoading }: Prop) => 
 {
+    const { error } = testimonialState;
     const {
         name,
         profession,
@@ -49,6 +56,8 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, 
                         sx={{ mb: 3 }}
                         onChange={ handleChange }
                         value={ name }
+                        error={ hasError(error, 'name') }
+                        helperText={ getError(error, 'name') }
                     />
                     <FormControl fullWidth>
                         <InputLabel id="select-profession-label">Profession</InputLabel>
@@ -58,6 +67,7 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, 
                             label="Profession"
                             onChange={ e => setTestimonial({ ...testimonial, profession: e.target.value }) }
                             value={ (!professions.includes(profession) && profession) ? 'Other' : profession }
+                            error={ hasError(error, 'profession') }
                         >
                             {
                                 professions.map((profession, index) => 
@@ -71,6 +81,7 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, 
                                 ))
                             }
                         </Select>
+                        <FormHelperText error={ hasError(error, 'profession') }>{ getError(error, 'profession') }</FormHelperText>
                     </FormControl>
                     {
                         (
@@ -85,6 +96,8 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, 
                                 sx={{ p: 2, mt: 2 }}
                                 onChange={ handleChange }
                                 value={ profession }
+                                error={ hasError(error, 'profession') }
+                                helperText={ getError(error, 'profession') }
                             />
                         )
                     }
@@ -99,6 +112,8 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, 
                         rows={ 9 }
                         onChange={ handleChange }
                         value={ body }
+                        error={ hasError(error, 'body') }
+                        helperText={ getError(error, 'body') }
                     />
                 </Grid>
                 <Grid item xs={ 12 } sm={ 12 } mt={ 10 } sx={{ textAlign: 'center' }}>
@@ -109,7 +124,7 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, 
                         size='large' 
                         onChange={ (e, value) => 
                             setTestimonial({ ...testimonial, rate: value ?? 0 }) 
-                        } 
+                        }
                     />
                 </Grid>
                 <Grid item xs={ 12 }>
@@ -120,4 +135,8 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, 
     );
 };
 
-export default InputFieldSection;
+const mapStateToProps = createStructuredSelector({
+    testimonialState: testimonialSelector
+});
+
+export default connect(mapStateToProps)(InputFieldSection);
