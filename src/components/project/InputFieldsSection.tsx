@@ -7,6 +7,7 @@ import { useState } from 'react';
 import FileUploadButton from './FileUploadButton';
 import { ProjectItemType } from '../../types/states/project/ProjectState';
 import { useNavigate } from 'react-router-dom';
+import SaveCancelButtons from '../SaveCancelButtons';
 
 const imgStyle: React.CSSProperties = {
     height: '100%',
@@ -172,14 +173,7 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop)
                         </Card>
                     </Grid>
                     <Grid item xs={ 12 } sm={ 12 }>
-                        <div style={{ textAlign: 'right' }}>
-                            <Button variant="outlined" color='error' sx={{ mr: 1 }} onClick={ handleClickCancel }>
-                                Cancel
-                            </Button>
-                            <Button type='submit' variant="contained" color='success'>
-                                Submit
-                            </Button>
-                        </div>
+                        <SaveCancelButtons />
                     </Grid>
                 </Grid>
             </Box>

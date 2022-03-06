@@ -1,4 +1,5 @@
 export type TestimonialItemType = {
+    id?: number,
     name: string,
     body: string,
     profession: string,
