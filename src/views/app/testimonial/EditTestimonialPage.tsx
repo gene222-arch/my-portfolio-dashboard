@@ -4,7 +4,8 @@ import { TestimonialItemType, TestimonialState } from '../../../types/states/tes
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { testimonialSelector } from './../../../redux/testimonial/selectors';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { editTestimonialStart } from '../../../redux/testimonial/action.creators';
 
 const defaultTestimonial: TestimonialItemType = {
     name: '',
@@ -20,13 +21,14 @@ interface Prop {
 const EditTestimonialPage = ({ testimonialState }: Prop) => 
 {
     const { id } = useParams<string>(); 
+    const dispatch = useDispatch();
 
     const [ testimonial, setTestimonial ] = useState(defaultTestimonial);
 
     const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => 
     {
         e.preventDefault();
-        window.alert('Submitted');
+        dispatch(editTestimonialStart(testimonial));
     };
 
     useEffect(() => {

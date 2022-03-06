@@ -10,7 +10,10 @@ import {
     GET_TESTIMONIALS_FAILED, 
     CREATE_TESTIMONIAL_SUCCEEDED,
     CREATE_TESTIMONIAL_START,
-    CREATE_TESTIMONIAL_FAILED
+    CREATE_TESTIMONIAL_FAILED,
+    EDIT_TESTIMONIAL_START,
+    EDIT_TESTIMONIAL_SUCCEEDED,
+    EDIT_TESTIMONIAL_FAILED
 } from './action.types';
 
 export const createTestimonialStart = (payload: TestimonialItemType): ActionType => ({
@@ -25,6 +28,21 @@ export const createTestimonialSucceeded = (payload: CreateTestimonialSuccessResp
 
 export const createTestimonialFailed = (payload: CreateTestimonialFailedResponse): ActionType => ({
     type: CREATE_TESTIMONIAL_FAILED,
+    payload
+});
+
+export const editTestimonialStart = (payload: TestimonialItemType): ActionType => ({
+    type: EDIT_TESTIMONIAL_START,
+    payload
+});
+
+export const editTestimonialSucceeded = (payload: CreateTestimonialSuccessResponse): ActionType => ({
+    type: EDIT_TESTIMONIAL_SUCCEEDED,
+    payload
+});
+
+export const editTestimonialFailed = (payload: CreateTestimonialFailedResponse): ActionType => ({
+    type: EDIT_TESTIMONIAL_FAILED,
     payload
 });
 

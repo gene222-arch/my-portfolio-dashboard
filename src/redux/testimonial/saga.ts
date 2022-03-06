@@ -2,12 +2,14 @@ import { all, take, put, call } from 'redux-saga/effects';
 import { GetTestimonialsFailedResponse } from '../../types/states/testimonial/GetTestimonialsFailedResponse';
 import { GetTestimonialsSuccessResponse } from '../../types/states/testimonial/GetTestimonialsSuccessResponse';
 import { getErrorMessage } from '../../utils/errorHandling';
-import { createTestimonialFailed, createTestimonialSucceeded, getTestimonialsFailed, getTestimonialsSucceeded } from './action.creators';
-import { CREATE_TESTIMONIAL_START, GET_TESTIMONIALS_START } from './action.types';
+import { createTestimonialFailed, createTestimonialSucceeded, editTestimonialFailed, editTestimonialSucceeded, getTestimonialsFailed, getTestimonialsSucceeded } from './action.creators';
+import { CREATE_TESTIMONIAL_START, EDIT_TESTIMONIAL_START, GET_TESTIMONIALS_START } from './action.types';
 import * as API from './../../apis/testimonial';
 import { CreateTestimonialSuccessResponse } from '../../types/states/testimonial/CreateTestimonialSuccessResponse';
 import { CreateTestimonialFailedResponse } from '../../types/states/testimonial/CreateTestimonialFailedResponse';
 import { TestimonialItemType } from '../../types/states/testimonial/TestimonialState';
+import { EditTestimonialSuccessResponse } from '../../types/states/testimonial/EditTestimonialSuccessResponse';
+import { EditTestimonialFailedResponse } from '../../types/states/testimonial/EditTestimonialFailedResponse';
 
 function* createTestimonialSaga(payload: TestimonialItemType)
 {
@@ -17,6 +19,17 @@ function* createTestimonialSaga(payload: TestimonialItemType)
     } catch (error) {
         const errorMessage: CreateTestimonialFailedResponse = getErrorMessage(error);
         yield put(createTestimonialFailed(errorMessage));
+    }
+}
+
+function* editTestimonialSaga(payload: TestimonialItemType)
+{
+    try {
+        const result: EditTestimonialSuccessResponse = yield call(API.update, payload);
+        yield put(editTestimonialSucceeded(result));
+    } catch (error) {
+        const errorMessage: EditTestimonialFailedResponse = getErrorMessage(error);
+        yield put(editTestimonialFailed(errorMessage));
     }
 }
 
@@ -40,6 +53,15 @@ function* createTestimonialWatcher()
     }
 }
 
+function* editTestimonialWatcher()
+{
+    while(true)
+    {
+        const { payload } = yield take(EDIT_TESTIMONIAL_START);
+        yield call(editTestimonialSaga, payload);
+    }
+}
+
 function* getTestimonialsWatcher()
 {
     while(true)
@@ -53,6 +75,7 @@ export default function* ()
 {
     yield all([
         createTestimonialWatcher(),
+        editTestimonialWatcher(),
         getTestimonialsWatcher()
     ]);
 }

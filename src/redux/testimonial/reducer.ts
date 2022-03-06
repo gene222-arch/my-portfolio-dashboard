@@ -4,6 +4,9 @@ import {
     CREATE_TESTIMONIAL_FAILED, 
     CREATE_TESTIMONIAL_START, 
     CREATE_TESTIMONIAL_SUCCEEDED, 
+    EDIT_TESTIMONIAL_FAILED, 
+    EDIT_TESTIMONIAL_START, 
+    EDIT_TESTIMONIAL_SUCCEEDED, 
     GET_TESTIMONIALS_FAILED, 
     GET_TESTIMONIALS_START, 
     GET_TESTIMONIALS_SUCCEEDED 
@@ -23,6 +26,7 @@ export default (state = initialState, action: ActionType) =>
     switch (action.type) 
     {
         case CREATE_TESTIMONIAL_START:
+        case EDIT_TESTIMONIAL_START:
         case GET_TESTIMONIALS_START:
             return { 
                 ...state, 
@@ -31,6 +35,13 @@ export default (state = initialState, action: ActionType) =>
             };
 
         case CREATE_TESTIMONIAL_SUCCEEDED:
+            return {
+                ...state,
+                isLoading,
+                error
+            };
+
+        case EDIT_TESTIMONIAL_SUCCEEDED:
             return {
                 ...state,
                 isLoading,
@@ -46,6 +57,7 @@ export default (state = initialState, action: ActionType) =>
             };
 
         case CREATE_TESTIMONIAL_FAILED:
+        case EDIT_TESTIMONIAL_FAILED:
         case GET_TESTIMONIALS_FAILED:
             return {
                 ...state,
