@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridRenderCellParams } from '@mui/x-data-grid';
+import { GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridRenderCellParams } from '@mui/x-data-grid';
 import { useDispatch, connect } from 'react-redux';
 import { getProjectsStart } from './../../../redux/project/action.creators';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from './../../../redux/project/selectors';
 import { ProjectState } from '../../../types/states/project/ProjectState';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { IconButton, Tooltip } from '@mui/material'
+import { Tooltip } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { CREATE_PROJECT_PATH, EDIT_PROJECT_PATH } from '../../../routes/path';
+import DataGridComponent from '../../../components/DataGridComponent';
 
 
 const renderCell = (params: GridRenderCellParams<any, any, any>) => (
@@ -52,34 +52,14 @@ const ProjectPage = ({ projectState }: Prop) =>
     }, []);
 
     return (
-        <div>
-            <Tooltip title='Create Project' placement='left-start'>
-                <IconButton 
-                    sx={{ 
-                        position: 'absolute',
-                        right: 10,
-                        bottom: 50
-                    }}
-                    onClick={ handleClickAdd }
-                >
-                    <AddCircleIcon sx={{ fontSize: '4rem' }} />
-                </IconButton>
-            </Tooltip>
-            <DataGrid 
-                rows={ projectState.projects } 
-                columns={ columns } 
-                autoHeight
-                loading={ projectState.isLoading }
-                onCellClick={ handleOnCellClick }
-                rowsPerPageOptions={ [5, 10, 15] }
-                sx={{
-                    '& .MuiDataGrid-cell:hover': {
-                        color: 'primary.main',
-                        cursor: 'pointer'
-                    }
-                }}
-            />
-        </div>
+        <DataGridComponent 
+            columns={ columns }
+            rows={ projectState.projects }
+            onCellClick={ handleOnCellClick }
+            onClickAddButton={ handleClickAdd }
+            addButtonTooltipTitle='Create Project'
+            isLoading={ projectState.isLoading }
+        />
     );
 };
 

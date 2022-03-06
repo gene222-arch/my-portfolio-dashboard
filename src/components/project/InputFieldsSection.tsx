@@ -2,11 +2,11 @@ import React from 'react';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { Card, CardContent, Typography, Button, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material';
 import { useState } from 'react';
 import FileUploadButton from './FileUploadButton';
 import { ProjectItemType } from '../../types/states/project/ProjectState';
-import { useNavigate } from 'react-router-dom';
+import SaveCancelButtons from '../SaveCancelButtons';
 
 const imgStyle: React.CSSProperties = {
     height: '100%',
@@ -18,17 +18,14 @@ interface Prop {
     actionText: string,
     project: ProjectItemType,
     setProject: React.Dispatch<React.SetStateAction<ProjectItemType>>,
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
+    isLoading: boolean
 }
 
-const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop) => 
+const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoading }: Prop) => 
 {
-    const navigate = useNavigate();
-
     const [ mainImage, setMainImage ] = useState<string | null>(null);
     const [ subImages, setSubImages ] = useState<string[]>([]);
-
-    const handleClickCancel = () => navigate(-1);
 
     const handleChangeFileUpload = (e: React.ChangeEvent<HTMLInputElement>) =>
     {
@@ -172,14 +169,7 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop)
                         </Card>
                     </Grid>
                     <Grid item xs={ 12 } sm={ 12 }>
-                        <div style={{ textAlign: 'right' }}>
-                            <Button variant="outlined" color='error' sx={{ mr: 1 }} onClick={ handleClickCancel }>
-                                Cancel
-                            </Button>
-                            <Button type='submit' variant="contained" color='success'>
-                                Submit
-                            </Button>
-                        </div>
+                        <SaveCancelButtons isLoading={ isLoading } />
                     </Grid>
                 </Grid>
             </Box>

@@ -1,9 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
+import InputFieldSection from '../../../components/testimonial/InputFieldSection';
+import { TestimonialItemType, TestimonialState } from '../../../types/states/testimonial/TestimonialState';
+import { useDispatch, connect } from 'react-redux';
+import { createTestimonialStart } from '../../../redux/testimonial/action.creators';
+import { createStructuredSelector } from 'reselect';
+import { testimonialSelector } from './../../../redux/testimonial/selectors';
 
-const CreateTestimonialPage = () => {
+const defaultTestimonial: TestimonialItemType = {
+    name: '',
+    body: '',
+    profession: '',
+    rate: 0
+};
+
+interface Prop {
+    testimonialState: TestimonialState
+}
+
+const CreateTestimonialPage = ({ testimonialState }: Prop) => 
+{
+    const dispatch = useDispatch();
+    const [ testimonial, setTestimonial ] = useState(defaultTestimonial);
+
+    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => 
+    {
+        e.preventDefault();
+        dispatch(createTestimonialStart(testimonial));
+    };
+
     return (
-        <div>CreateTestimonialPage</div>
+        <InputFieldSection 
+            actionText='Create'
+            testimonial={ testimonial }
+            setTestimonial={ setTestimonial }
+            onSubmit={ handleOnSubmit }
+            isLoading={ testimonialState.isLoading }
+        />
     );
 };
 
-export default CreateTestimonialPage;
+const mapStateToProps = createStructuredSelector({
+    testimonialState: testimonialSelector
+});
+
+export default connect(mapStateToProps)(CreateTestimonialPage);
