@@ -1,5 +1,13 @@
 import { TestimonialState } from "../../types/states/testimonial/TestimonialState";
-import { ActionType, GET_TESTIMONIALS_FAILED, GET_TESTIMONIALS_START, GET_TESTIMONIALS_SUCCEEDED } from "./action.types";
+import { 
+    ActionType, 
+    CREATE_TESTIMONIAL_FAILED, 
+    CREATE_TESTIMONIAL_START, 
+    CREATE_TESTIMONIAL_SUCCEEDED, 
+    GET_TESTIMONIALS_FAILED, 
+    GET_TESTIMONIALS_START, 
+    GET_TESTIMONIALS_SUCCEEDED 
+} from "./action.types";
 
 const isLoading = false;
 const error = undefined;
@@ -14,10 +22,18 @@ export default (state = initialState, action: ActionType) =>
 {
     switch (action.type) 
     {
+        case CREATE_TESTIMONIAL_START:
         case GET_TESTIMONIALS_START:
             return { 
                 ...state, 
                 isLoading: true,
+                error
+            };
+
+        case CREATE_TESTIMONIAL_SUCCEEDED:
+            return {
+                ...state,
+                isLoading,
                 error
             };
 
@@ -29,6 +45,7 @@ export default (state = initialState, action: ActionType) =>
                 error
             };
 
+        case CREATE_TESTIMONIAL_FAILED:
         case GET_TESTIMONIALS_FAILED:
             return {
                 ...state,
