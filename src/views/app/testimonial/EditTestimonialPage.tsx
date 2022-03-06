@@ -42,6 +42,7 @@ const EditTestimonialPage = ({ testimonialState }: Prop) =>
             testimonial={ testimonial }
             setTestimonial={ setTestimonial }
             onSubmit={ handleOnSubmit }
+            isLoading={ testimonialState.isLoading }
         />
     );
 };

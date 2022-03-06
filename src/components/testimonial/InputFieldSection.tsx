@@ -19,10 +19,11 @@ interface Prop {
     actionText: string,
     testimonial: TestimonialItemType,
     setTestimonial: React.Dispatch<React.SetStateAction<TestimonialItemType>>,
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
+    isLoading: boolean
 }
 
-const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }: Prop) => 
+const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit, isLoading }: Prop) => 
 {
     const {
         name,
@@ -112,7 +113,7 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }
                     />
                 </Grid>
                 <Grid item xs={ 12 }>
-                    <SaveCancelButtons />
+                    <SaveCancelButtons isLoading={ isLoading } />
                 </Grid>
             </Grid>
         </Container>

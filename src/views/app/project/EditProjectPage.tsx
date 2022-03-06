@@ -52,6 +52,7 @@ const EditProjectPage = ({ projectState }: Prop) =>
                 project={ project } 
                 setProject={ setProject }
                 onSubmit={ handleClickSubmit }
+                isLoading={ projectState.isLoading }
             />
         </Container>
     );

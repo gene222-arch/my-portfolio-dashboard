@@ -19,10 +19,11 @@ interface Prop {
     actionText: string,
     project: ProjectItemType,
     setProject: React.Dispatch<React.SetStateAction<ProjectItemType>>,
-    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
+    isLoading: boolean
 }
 
-const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop) => 
+const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoading }: Prop) => 
 {
     const navigate = useNavigate();
 
@@ -173,7 +174,7 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit }: Prop)
                         </Card>
                     </Grid>
                     <Grid item xs={ 12 } sm={ 12 }>
-                        <SaveCancelButtons />
+                        <SaveCancelButtons isLoading={ isLoading } />
                     </Grid>
                 </Grid>
             </Box>

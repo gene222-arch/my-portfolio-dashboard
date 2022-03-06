@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import Container from '@mui/material/Container'
 import InputFieldsSection from '../../../components/project/InputFieldsSection'
-import { ProjectItemType } from '../../../types/states/project/ProjectState';
+import { ProjectItemType, ProjectState } from '../../../types/states/project/ProjectState';
+import { createStructuredSelector } from 'reselect';
+import { projectSelector } from './../../../redux/project/selectors';
+import { connect } from 'react-redux';
 
 const projectDefault: ProjectItemType = 
 {
@@ -15,7 +18,11 @@ const projectDefault: ProjectItemType =
     images: []
 };
 
-const CreateProjectPage = () => 
+interface Prop {
+    projectState: ProjectState
+}
+
+const CreateProjectPage = ({ projectState }: Prop) => 
 {
     const [ project, setProject ] = useState(projectDefault);
 
@@ -32,9 +39,14 @@ const CreateProjectPage = () =>
                 project={ project } 
                 setProject={ setProject }
                 onSubmit={ handleClickSubmit }
+                isLoading={ projectState.isLoading }
             />
         </Container>
     );
 };
 
-export default CreateProjectPage;
+const mapStateToProps = createStructuredSelector({
+    projectState: projectSelector
+});
+
+export default connect(mapStateToProps)(CreateProjectPage);
