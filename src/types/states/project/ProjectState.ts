@@ -1,11 +1,11 @@
 export type ProjectItemImage = {
-    id: number,
-    project_id: string,
+    id?: number,
+    project_id?: string,
     image_url: string
 };
 
 export type ProjectItemType = {
-    id: number,
+    id?: number,
     image_url: string,
     website_url?: string,
     title: string,
