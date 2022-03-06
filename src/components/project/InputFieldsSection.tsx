@@ -2,11 +2,10 @@ import React from 'react';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { Card, CardContent, Typography, Button, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box } from '@mui/material';
 import { useState } from 'react';
 import FileUploadButton from './FileUploadButton';
 import { ProjectItemType } from '../../types/states/project/ProjectState';
-import { useNavigate } from 'react-router-dom';
 import SaveCancelButtons from '../SaveCancelButtons';
 
 const imgStyle: React.CSSProperties = {
@@ -25,12 +24,8 @@ interface Prop {
 
 const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoading }: Prop) => 
 {
-    const navigate = useNavigate();
-
     const [ mainImage, setMainImage ] = useState<string | null>(null);
     const [ subImages, setSubImages ] = useState<string[]>([]);
-
-    const handleClickCancel = () => navigate(-1);
 
     const handleChangeFileUpload = (e: React.ChangeEvent<HTMLInputElement>) =>
     {

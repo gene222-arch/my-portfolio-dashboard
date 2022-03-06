@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { TestimonialItemType } from '../../types/states/testimonial/TestimonialState';
-import { FormControl, InputLabel, MenuItem, Select, Rating, Button } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Rating } from '@mui/material';
 import SaveCancelButtons from '../SaveCancelButtons';
 
 const professions = [
