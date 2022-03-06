@@ -24,6 +24,13 @@ interface Prop {
 
 const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }: Prop) => 
 {
+    const {
+        name,
+        profession,
+        body,
+        rate
+    } = testimonial;
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTestimonial({ ...testimonial, [e.target.name]: e.target.value });
     };
@@ -40,7 +47,7 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }
                         fullWidth
                         sx={{ mb: 3 }}
                         onChange={ handleChange }
-                        value={ testimonial.name }
+                        value={ name }
                     />
                     <FormControl fullWidth>
                         <InputLabel id="select-profession-label">Profession</InputLabel>
@@ -49,7 +56,7 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }
                             labelId="select-profession-label"
                             label="Profession"
                             onChange={ e => setTestimonial({ ...testimonial, profession: e.target.value }) }
-                            value={ !professions.includes(testimonial.profession) ? 'Other' : testimonial.profession }
+                            value={ (!professions.includes(profession) && profession) ? 'Other' : profession }
                         >
                             {
                                 professions.map((profession, index) => 
@@ -65,7 +72,10 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }
                         </Select>
                     </FormControl>
                     {
-                        (testimonial.profession === 'Other' || !professions.includes(testimonial.profession)) && (
+                        (
+                            profession &&
+                            (profession === 'Other' || !professions.includes(profession))
+                        ) && (
                             <TextField
                                 name='profession'
                                 label="Profession"
@@ -73,7 +83,7 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }
                                 fullWidth
                                 sx={{ p: 2, mt: 2 }}
                                 onChange={ handleChange }
-                                value={ testimonial.profession }
+                                value={ profession }
                             />
                         )
                     }
@@ -87,13 +97,13 @@ const InputFieldSection = ({ actionText, testimonial, setTestimonial, onSubmit }
                         multiline
                         rows={ 9 }
                         onChange={ handleChange }
-                        value={ testimonial.body }
+                        value={ body }
                     />
                 </Grid>
                 <Grid item xs={ 12 } sm={ 12 } mt={ 10 } sx={{ textAlign: 'center' }}>
                     <Typography variant="subtitle1" mb={ 1 }>What`s his rating?</Typography>
                     <Rating 
-                        value={ testimonial.rate } 
+                        value={ rate } 
                         precision={ 0.5 } 
                         size='large' 
                         onChange={ (e, value) => 
