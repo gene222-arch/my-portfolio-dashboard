@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import { browserHistory } from '../utils/browserHistory';
 import auth from './auth/reducer';
 import pageReport from './page-report/reducer';
+import project from './project/reducer';
 
 const { routerReducer } = createReduxHistoryContext({
     history: browserHistory
@@ -20,6 +21,7 @@ const reducers = {
     router: routerReducer,
     auth,
     pageReport,
+    project,
 };
 
 const persistedReducer = persistCombineReducers(persistConfig, reducers);
