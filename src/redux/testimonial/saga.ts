@@ -10,12 +10,15 @@ import { CreateTestimonialFailedResponse } from '../../types/states/testimonial/
 import { TestimonialItemType } from '../../types/states/testimonial/TestimonialState';
 import { EditTestimonialSuccessResponse } from '../../types/states/testimonial/EditTestimonialSuccessResponse';
 import { EditTestimonialFailedResponse } from '../../types/states/testimonial/EditTestimonialFailedResponse';
+import { push } from 'redux-first-history';
+import { TESTIMONIAL_PATH } from '../../routes/path';
 
 function* createTestimonialSaga(payload: TestimonialItemType)
 {
     try {
         const result: CreateTestimonialSuccessResponse = yield call(API.store, payload);
         yield put(createTestimonialSucceeded(result));
+        yield put(push(TESTIMONIAL_PATH));
     } catch (error) {
         const errorMessage: CreateTestimonialFailedResponse = getErrorMessage(error);
         yield put(createTestimonialFailed(errorMessage));
@@ -27,6 +30,7 @@ function* editTestimonialSaga(payload: TestimonialItemType)
     try {
         const result: EditTestimonialSuccessResponse = yield call(API.update, payload);
         yield put(editTestimonialSucceeded(result));
+        yield put(push(TESTIMONIAL_PATH));
     } catch (error) {
         const errorMessage: EditTestimonialFailedResponse = getErrorMessage(error);
         yield put(editTestimonialFailed(errorMessage));
