@@ -1,5 +1,5 @@
 import React from 'react';
-import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar } from '@mui/x-data-grid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { IconButton, Tooltip } from '@mui/material'
 
@@ -41,6 +41,8 @@ const DataGridComponent = ({ columns, rows, onCellClick, onClickAddButton, addBu
                 loading={ isLoading }
                 onCellClick={ onCellClick }
                 rowsPerPageOptions={ [5, 10, 15] }
+                components={{ Toolbar: GridToolbar }}
+                density='comfortable'
                 sx={{
                     '& .MuiDataGrid-cell:hover': {
                         color: 'primary.main',
