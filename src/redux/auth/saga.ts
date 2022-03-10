@@ -1,21 +1,23 @@
 import { push } from 'redux-first-history';
 import { all, call, put, take } from 'redux-saga/effects';
-import { DASHBOARD_PATH } from '../../routes/path';
-import { LoginFailedResponse } from '../../types/states/auth/LoginFailedResponse';
-import { LoginSuccessResponse } from '../../types/states/auth/LoginSuccessResponse';
-import { LogoutFailedResponse } from '../../types/states/auth/LogoutFailedResponse';
-import { LogoutSuccessResponse } from '../../types/states/auth/LogoutSuccessResponse';
-import { getErrorMessage } from '../../utils/errorHandling';
-import * as LoginApi from './../../apis/auth/login';
-import * as AccountApi from './../../apis/auth/account';
-import * as Cookies from './../../utils/cookies';
+import { DASHBOARD_PATH } from 'routes/path';
+import { 
+    LoginFailedResponse, 
+    LoginSuccessResponse, 
+    LogoutFailedResponse, 
+    LogoutSuccessResponse,
+    GetAccountDetailSuccessResponse,
+    GetAccountDetailFailedResponse,
+    UpdateAccountDetailsPayload,
+    UpdateAccountSuccessResponse
+} from 'types/states/auth';
+import { getErrorMessage } from 'utils/errorHandling';
+import * as LoginApi from 'apis/auth/login';
+import * as AccountApi from 'apis/auth/account';
+import * as Cookies from 'utils/cookies';
 import { loginSucceeded, loginFailed, logoutSucceeded, logoutFailed, getAccountDetailsSucceeded, getAccountDetailsFailed, updateAccountDetailsSucceeded, updateAccountDetailsFailed } from './action.creators';
 import { LOGIN_START, LOGOUT_START, GET_ACCOUNT_DETAILS_START, UPDATE_ACCOUNT_DETAILS_START } from './action.types';
-import { LOGIN_PATH } from './../../routes/path';
-import { GetAccountDetailSuccessResponse } from '../../types/states/auth/GetAccountDetailSuccessResponse';
-import { GetAccountDetailFailedResponse } from '../../types/states/auth/GetAccountDetailFailedResponse';
-import { UpdateAccountDetailsPayload } from '../../types/states/auth/UpdateAccountDetailsPayload';
-import { UpdateAccountSuccessResponse } from '../../types/states/auth/UpdateAccountSuccessResponse';
+import { LOGIN_PATH } from 'routes/path';
 
 function* getAccountDetailsSaga(userID: number) 
 {

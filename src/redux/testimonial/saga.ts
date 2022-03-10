@@ -1,17 +1,18 @@
 import { all, take, put, call } from 'redux-saga/effects';
-import { GetTestimonialsFailedResponse } from '../../types/states/testimonial/GetTestimonialsFailedResponse';
-import { GetTestimonialsSuccessResponse } from '../../types/states/testimonial/GetTestimonialsSuccessResponse';
-import { getErrorMessage } from '../../utils/errorHandling';
+import { 
+    GetTestimonialsFailedResponse, 
+    GetTestimonialsSuccessResponse, 
+    CreateTestimonialSuccessResponse,
+    CreateTestimonialFailedResponse,
+    EditTestimonialSuccessResponse,
+    EditTestimonialFailedResponse } from 'types/states/testimonial';
+import { getErrorMessage } from 'utils/errorHandling';
 import { createTestimonialFailed, createTestimonialSucceeded, editTestimonialFailed, editTestimonialSucceeded, getTestimonialsFailed, getTestimonialsSucceeded } from './action.creators';
 import { CREATE_TESTIMONIAL_START, EDIT_TESTIMONIAL_START, GET_TESTIMONIALS_START } from './action.types';
-import * as API from './../../apis/testimonial';
-import { CreateTestimonialSuccessResponse } from '../../types/states/testimonial/CreateTestimonialSuccessResponse';
-import { CreateTestimonialFailedResponse } from '../../types/states/testimonial/CreateTestimonialFailedResponse';
-import { TestimonialItemType } from '../../types/states/testimonial/TestimonialState';
-import { EditTestimonialSuccessResponse } from '../../types/states/testimonial/EditTestimonialSuccessResponse';
-import { EditTestimonialFailedResponse } from '../../types/states/testimonial/EditTestimonialFailedResponse';
+import * as API from 'apis/testimonial';
+import { TestimonialItemType } from 'types/states/testimonial/TestimonialState';
 import { push } from 'redux-first-history';
-import { TESTIMONIAL_PATH } from '../../routes/path';
+import { TESTIMONIAL_PATH } from 'routes/path';
 
 function* createTestimonialSaga(payload: TestimonialItemType)
 {

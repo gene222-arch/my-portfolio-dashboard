@@ -1,6 +1,5 @@
 import { all, take, put, call } from 'redux-saga/effects';
-import { GetProjectsFailedResponse } from '../../types/states/project/GetProjectsFailedResponse';
-import { GetProjectsSuccessResponse } from '../../types/states/project/GetProjectsSuccessResponse';
+import { GetProjectsFailedResponse, GetProjectsSuccessResponse } from '../../types/states/project';
 import { getErrorMessage } from '../../utils/errorHandling';
 import { getProjectsFailed, getProjectsSucceeded } from './action.creators';
 import { GET_PROJECTS_START } from './action.types';
