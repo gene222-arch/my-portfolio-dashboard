@@ -6,6 +6,8 @@ import axiosInstance from '../utils/axiosInstance';
 import { TestimonialItemType } from '../types/states/testimonial/TestimonialState';
 import { EditTestimonialSuccessResponse } from '../types/states/testimonial/EditTestimonialSuccessResponse';
 import { EditTestimonialFailedResponse } from '../types/states/testimonial/EditTestimonialFailedResponse';
+import { UploadAvatarSuccessResponse } from 'types/states/testimonial/UploadAvatarSuccessResponse';
+import { UploadAvatarFailedResponse } from 'types/states/testimonial/UploadAvatarFailedResponse';
 
 export const getTestimonials = async (): Promise<GetTestimonialsSuccessResponse | GetTestimonialsFailedResponse> => 
 {
@@ -21,6 +23,18 @@ export const store = async (payload: TestimonialItemType): Promise<CreateTestimo
         .post('/testimonials', payload)
         .then((response: { data: CreateTestimonialFailedResponse }) => response.data)
         .catch((error: { response: { data: CreateTestimonialSuccessResponse }}) => Promise.reject(error.response.data))
+};
+
+export const uploadAvatar = async (payload: FormData): Promise<UploadAvatarSuccessResponse> => 
+{
+    return await axiosInstance()
+        .post('/testimonials/upload-avatar', payload, {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        })
+        .then((response: { data: UploadAvatarSuccessResponse }) => response.data)
+        .catch((error: { response: { data: UploadAvatarFailedResponse }}) => Promise.reject(error.response.data))
 };
 
 export const update = async (payload: Partial<TestimonialItemType>): Promise<EditTestimonialSuccessResponse | EditTestimonialFailedResponse> => 

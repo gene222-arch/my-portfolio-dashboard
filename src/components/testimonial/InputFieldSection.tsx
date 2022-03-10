@@ -5,13 +5,15 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { TestimonialItemType, TestimonialState } from 'types/states/testimonial/TestimonialState';
 import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
-import { FormControl, InputLabel, MenuItem, Select, Rating, FormHelperText } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, Rating, FormHelperText, CircularProgress } from '@mui/material';
 import SaveCancelButtons from 'components/SaveCancelButtons';
 import { createStructuredSelector } from 'reselect';
 import { testimonialSelector } from 'redux/testimonial/selectors';
 import { connect } from 'react-redux';
 import { hasError } from 'utils/errorHandling';
 import { getError } from 'utils/errorHandling';
+import { UploadAvatarSuccessResponse } from 'types/states/testimonial/UploadAvatarSuccessResponse';
+import { uploadAvatar } from 'apis/testimonial';
 
 const professions = [
     'Doctor',
@@ -47,27 +49,44 @@ const InputFieldSection = ({ testimonialState, actionText, testimonial, setTesti
     } = testimonial;
 
     const [ avatar, setAvatar ] = useState<string | null>(null);
+    const [ loading, setLoading ] = useState(false);
 
-    const handleChangeFileUpload = (e: React.ChangeEvent<HTMLInputElement>) =>
+    const handleChangeFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) =>
     {
-        const { files } = e.target;
+        setLoading(true);
+        try {
+            const { files } = e.target;
 
-        if (files)
-        {
-            if (! files.length) return;
-        
-            const file = files[0];
-            const reader = new FileReader();
-
-            reader.onload = (e: ProgressEvent<FileReader>) => 
+            if (files)
             {
-                if (e?.target?.result) {
-                    setAvatar(e.target.result as string);
-                }
-            };
+                if (! files.length) return;
+            
+                const file = files[0];
+                const reader = new FileReader();
+    
+                reader.onload = (e: ProgressEvent<FileReader>) => 
+                {
+                    if (e?.target?.result) {
+                        setAvatar(e.target.result as string);
+                    }
+                };
 
-            reader.readAsDataURL(file);
+                const fd = new FormData();
+                fd.append('avatar', file);
+    
+                const result: UploadAvatarSuccessResponse = await uploadAvatar(fd);
+                
+                setTestimonial({
+                    ...testimonial,
+                    avatar_url: result.data.url
+                });
+
+                reader.readAsDataURL(file);
+            }
+        } catch (error) {
+            console.log(error);
         }
+        setLoading(false);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +98,9 @@ const InputFieldSection = ({ testimonialState, actionText, testimonial, setTesti
             <Typography variant="h5" px={ 2 } py={ 3 }>{ actionText } Testimonial</Typography>
             <div style={{ textAlign: 'center', padding: '1rem 0', position: 'relative' }}>
                 {
-                    !avatar
+                    loading 
+                        ? <CircularProgress sx={{ padding: '6rem 0' }} />
+                        :   !avatar
                         ? <img 
                             src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png" 
                             style={ imageStyle }
@@ -108,6 +129,8 @@ const InputFieldSection = ({ testimonialState, actionText, testimonial, setTesti
                     accept='image/*'
                     onChange={ handleChangeFileUpload }
                 />
+                
+                
             </div>
             <Grid container spacing={ 3 } component='form' noValidate onSubmit={ onSubmit }>
                 <Grid item xs={ 12 } sm={ 6 }>
