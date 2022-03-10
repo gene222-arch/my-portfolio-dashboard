@@ -100,15 +100,17 @@ const InputFieldSection = ({ testimonialState, actionText, testimonial, setTesti
                 {
                     loading 
                         ? <CircularProgress sx={{ padding: '6rem 0' }} />
-                        :   !avatar
-                        ? <img 
-                            src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png" 
-                            style={ imageStyle }
-                        />
-                        : <img 
-                            src={ avatar }
-                            style={ imageStyle } 
-                        />
+                        :   (
+                            !testimonial.avatar_url && !avatar
+                                ? <img 
+                                    src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png" 
+                                    style={ imageStyle }
+                                />
+                                : <img 
+                                    src={ avatar || testimonial.avatar_url }
+                                    style={ imageStyle } 
+                                />
+                        )
                 }
                 <label htmlFor='file-upload'>
                     <ModeEditOutlineRoundedIcon 
