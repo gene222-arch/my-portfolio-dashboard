@@ -17,6 +17,7 @@ function* createTestimonialSaga(payload: TestimonialItemType)
 {
     try {
         const result: CreateTestimonialSuccessResponse = yield call(API.store, payload);
+
         yield put(createTestimonialSucceeded(result));
         yield put(push(TESTIMONIAL_PATH));
     } catch (error) {
@@ -29,6 +30,7 @@ function* editTestimonialSaga(payload: TestimonialItemType)
 {
     try {
         const result: EditTestimonialSuccessResponse = yield call(API.update, payload);
+
         yield put(editTestimonialSucceeded(result));
         yield put(push(TESTIMONIAL_PATH));
     } catch (error) {
@@ -41,6 +43,7 @@ function* getTestimonialsSaga()
 {
     try {
         const result: GetTestimonialsSuccessResponse = yield call(API.getTestimonials);
+        
         yield put(getTestimonialsSucceeded(result));
     } catch (error) {
         const errorMessage: GetTestimonialsFailedResponse = getErrorMessage(error);

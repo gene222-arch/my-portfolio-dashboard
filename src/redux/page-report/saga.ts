@@ -10,6 +10,7 @@ function* getPageReportSaga()
 {
     try {
         const result: GetPageReportSuccessResponse = yield call(API.getPageReport);
+        
         yield put(getPageReportSucceeded(result));
     } catch (error) {
         const errorMessage: GetPageReportFailedResponse = getErrorMessage(error);
