@@ -6,26 +6,15 @@ import { useDispatch, connect } from 'react-redux';
 import { getEmailsStart } from 'redux/email/action.creators';
 import { emailSelector } from 'redux/email/selectors';
 import { createStructuredSelector } from 'reselect';
-import { EmailState } from 'types/states/email/EmailState';
+import { EmailItemType, EmailState } from 'types/states/email/EmailState';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import DisplayEmailContentDialog from 'components/email/DisplayEmailContentDialog';
 
 const columns: GridColDef[] = [
     { field: 'name', headerName: 'Name', width: 300 },
     { field: 'email', headerName: 'Email', width: 300 },
     { field: 'message', headerName: 'Message', width: 412 },
-    { field: 'created_at', headerName: 'Mailed at', width: 300 },
-    { 
-        field: 'action buttons', 
-        headerName: 'Action', 
-        width: 100,
-        renderCell: (params: GridRenderCellParams<any, any, any>) => (
-            <Tooltip title='View More Details' placement='top-start'>
-                <IconButton>
-                    <VisibilityTwoToneIcon color='info' />
-                </IconButton>
-            </Tooltip>
-        ),
-    }
+    { field: 'created_at', headerName: 'Mailed at', width: 300 }
 ];
 
 interface Prop {
@@ -36,20 +25,44 @@ const Email = ({ emailState }: Prop) =>
 {
     const dispatch = useDispatch();
     const [ isArchived, setIsArchived ] = useState(false);
+    const [ email, setEmail ] = useState<EmailItemType | null>(null)
+    const [ open, setOpen ] = useState(false);
+
+    const handleClickView = (payload: EmailItemType) => {
+        setEmail(payload);
+        setOpen(true);
+    }
 
     useEffect(() => {
         dispatch(getEmailsStart({ archive: isArchived }));
     }, []);
 
     return (
-        <DataGridComponent
-            columns={ columns }
-            rows={ emailState.emails }
-            onCellClick={ () => 1 }
-            onClickAddButton={ () => 1 }
-            addButtonTooltipTitle=''
-            isLoading={ emailState.isLoading }
-        />
+        <div>
+            <DisplayEmailContentDialog email={ email } open={ open } setOpen={ setOpen } />
+            <DataGridComponent
+                columns={[
+                    ...columns,
+                    { 
+                        field: 'action buttons', 
+                        headerName: 'Action', 
+                        width: 100,
+                        renderCell: (params: GridRenderCellParams<any, any, any>) => (
+                            <Tooltip title='View More Details' placement='top-start'>
+                                <IconButton onClick={ () => handleClickView(params.row) }>
+                                    <VisibilityTwoToneIcon color='info' />
+                                </IconButton>
+                            </Tooltip>
+                        ),
+                    }
+                ]}
+                rows={ emailState.emails }
+                onCellClick={ () => 1 }
+                onClickAddButton={ () => 1 }
+                addButtonTooltipTitle=''
+                isLoading={ emailState.isLoading }
+            />
+        </div>
     );
 };
 
