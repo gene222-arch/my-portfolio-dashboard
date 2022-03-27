@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { TestimonialItemType, TestimonialState } from '../../types/states/testimonial/TestimonialState';
-import { FormControl, InputLabel, MenuItem, Select, Rating, FormHelperText } from '@mui/material';
-import SaveCancelButtons from '../SaveCancelButtons';
+import { TestimonialItemType, TestimonialState } from 'types/states/testimonial/TestimonialState';
+import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
+import { FormControl, InputLabel, MenuItem, Select, Rating, FormHelperText, CircularProgress } from '@mui/material';
+import SaveCancelButtons from 'components/SaveCancelButtons';
 import { createStructuredSelector } from 'reselect';
-import { testimonialSelector } from './../../redux/testimonial/selectors';
+import { testimonialSelector } from 'redux/testimonial/selectors';
 import { connect } from 'react-redux';
-import { hasError } from '../../utils/errorHandling';
-import { getError } from './../../utils/errorHandling';
+import { hasError } from 'utils/errorHandling';
+import { getError } from 'utils/errorHandling';
+import { UploadAvatarSuccessResponse } from 'types/states/testimonial/UploadAvatarSuccessResponse';
+import { uploadAvatar } from 'apis/testimonial';
 
 const professions = [
     'Doctor',
@@ -29,6 +32,12 @@ interface Prop {
     isLoading: boolean
 }
 
+const imageStyle: React.CSSProperties = {
+    width: '12rem',
+    height: '12rem',
+    borderRadius: '0.25rem'
+};
+
 const InputFieldSection = ({ testimonialState, actionText, testimonial, setTestimonial, onSubmit, isLoading }: Prop) => 
 {
     const { error } = testimonialState;
@@ -39,6 +48,47 @@ const InputFieldSection = ({ testimonialState, actionText, testimonial, setTesti
         rate
     } = testimonial;
 
+    const [ avatar, setAvatar ] = useState<string | null>(null);
+    const [ loading, setLoading ] = useState(false);
+
+    const handleChangeFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) =>
+    {
+        setLoading(true);
+        try {
+            const { files } = e.target;
+
+            if (files)
+            {
+                if (! files.length) return;
+            
+                const file = files[0];
+                const reader = new FileReader();
+    
+                reader.onload = (e: ProgressEvent<FileReader>) => 
+                {
+                    if (e?.target?.result) {
+                        setAvatar(e.target.result as string);
+                    }
+                };
+
+                const fd = new FormData();
+                fd.append('avatar', file);
+    
+                const result: UploadAvatarSuccessResponse = await uploadAvatar(fd);
+                
+                setTestimonial({
+                    ...testimonial,
+                    avatar_url: result.data.url
+                });
+
+                reader.readAsDataURL(file);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        setLoading(false);
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTestimonial({ ...testimonial, [e.target.name]: e.target.value });
     };
@@ -46,6 +96,44 @@ const InputFieldSection = ({ testimonialState, actionText, testimonial, setTesti
     return (
         <Container maxWidth="lg">
             <Typography variant="h5" px={ 2 } py={ 3 }>{ actionText } Testimonial</Typography>
+            <div style={{ textAlign: 'center', padding: '1rem 0', position: 'relative' }}>
+                {
+                    loading 
+                        ? <CircularProgress sx={{ padding: '6rem 0' }} />
+                        :   (
+                            !testimonial.avatar_url && !avatar
+                                ? <img 
+                                    src="https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes.png" 
+                                    style={ imageStyle }
+                                />
+                                : <img 
+                                    src={ avatar || testimonial.avatar_url }
+                                    style={ imageStyle } 
+                                />
+                        )
+                }
+                <label htmlFor='file-upload'>
+                    <ModeEditOutlineRoundedIcon 
+                        sx={{ 
+                            position: 'absolute',
+                            bottom: 20,
+                            '&:hover': {
+                                cursor: 'pointer',
+                                color: '#DDDDDD'
+                            }
+                        }}
+                    />
+                </label>
+                <input 
+                    type='file'
+                    style={{ display: 'none' }}
+                    id='file-upload'
+                    accept='image/*'
+                    onChange={ handleChangeFileUpload }
+                />
+                
+                
+            </div>
             <Grid container spacing={ 3 } component='form' noValidate onSubmit={ onSubmit }>
                 <Grid item xs={ 12 } sm={ 6 }>
                     <TextField

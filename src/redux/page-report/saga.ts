@@ -1,6 +1,8 @@
 import { all, take, put, call } from 'redux-saga/effects';
-import { GetPageReportFailedResponse } from '../../types/states/page-report/GetPageReportFailedResponse';
-import { GetPageReportSuccessResponse } from '../../types/states/page-report/GetPageReportSuccessResponse';
+import { 
+    GetPageReportFailedResponse, 
+    GetPageReportSuccessResponse 
+} from 'types/states/page-report';
 import { getErrorMessage } from '../../utils/errorHandling';
 import { getPageReportFailed, getPageReportSucceeded } from './action.creators';
 import { GET_PAGE_REPORT_START } from './action.types';

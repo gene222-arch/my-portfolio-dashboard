@@ -8,6 +8,7 @@ import { testimonialSelector } from './../../../redux/testimonial/selectors';
 
 const defaultTestimonial: TestimonialItemType = {
     name: '',
+    avatar_url: '',
     body: '',
     profession: '',
     rate: 0

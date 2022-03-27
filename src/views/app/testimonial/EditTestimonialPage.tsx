@@ -9,6 +9,7 @@ import { editTestimonialStart } from '../../../redux/testimonial/action.creators
 
 const defaultTestimonial: TestimonialItemType = {
     name: '',
+    avatar_url: '',
     body: '',
     profession: '',
     rate: 0
