@@ -23,6 +23,7 @@ function* getAccountDetailsSaga(userID: number)
 {
     try {
         const result: GetAccountDetailSuccessResponse = yield call(AccountApi.getAccountDetails, userID);
+
         yield put(getAccountDetailsSucceeded(result));
     } catch (error: any) {
         const errorMessage: GetAccountDetailFailedResponse = getErrorMessage(error);
@@ -64,6 +65,7 @@ function* updateAccountDetailsSaga(payload: UpdateAccountDetailsPayload)
 {
     try {
         const result: UpdateAccountSuccessResponse = yield call(AccountApi.update, payload);
+        
         yield put(updateAccountDetailsSucceeded(result));
     } catch (error: any) {
         const errorMessage: GetAccountDetailFailedResponse = getErrorMessage(error);
