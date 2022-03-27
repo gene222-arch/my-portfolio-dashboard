@@ -74,9 +74,6 @@ const DisplayEmailContentDialog = ({ email, open, setOpen }: Prop) =>
 
     return (
         <div>
-            <Button variant="outlined" onClick={ toggle }>
-                Open dialog
-            </Button>
             <BootstrapDialog
                 onClose={ toggle }
                 aria-labelledby="display-email-content-dialog-title"
