@@ -9,6 +9,7 @@ function* getProjectsSaga()
 {
     try {
         const result: GetProjectsSuccessResponse = yield call(API.getProjects);
+        
         yield put(getProjectsSucceeded(result));
     } catch (error) {
         const errorMessage: GetProjectsFailedResponse = getErrorMessage(error);
