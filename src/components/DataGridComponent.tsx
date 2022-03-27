@@ -9,7 +9,7 @@ interface Prop {
     rows: readonly {
         [key: string]: any;
     }[],
-    onCellClick: (
+    onCellClick?: (
         params: GridCellParams, 
         event: MuiEvent<React.MouseEvent>, 
         details: GridCallbackDetails
@@ -20,7 +20,7 @@ interface Prop {
     isLoading: boolean
 }
 
-const DataGridComponent = ({ title, columns, rows, onCellClick, addAction = true, onClickAddButton, addButtonTooltipTitle, isLoading }: Prop) => 
+const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAction = true, onClickAddButton, addButtonTooltipTitle, isLoading }: Prop) => 
 {
     return (
         <div>
