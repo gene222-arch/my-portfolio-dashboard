@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar } from '@mui/x-data-grid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { IconButton, Tooltip, Typography } from '@mui/material'
 
 interface Prop {
-    title?: string,
+    title?: ReactNode,
     columns: GridColDef[],
     rows: readonly {
         [key: string]: any;
@@ -16,7 +16,7 @@ interface Prop {
     ) => void,
     addAction?: boolean,
     onClickAddButton?: () => void,
-    addButtonTooltipTitle: string,
+    addButtonTooltipTitle?: string,
     isLoading: boolean
 }
 
@@ -25,7 +25,7 @@ const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAct
     return (
         <div>
             {
-                addAction && (
+                (addAction && addButtonTooltipTitle) && (
                     <Tooltip title={ addButtonTooltipTitle } placement='left-start'>
                         <IconButton 
                             sx={{ 

@@ -40,7 +40,8 @@ const Email = ({ emailState }: Prop) =>
     return (
         <div>
             <DisplayEmailContentDialog email={ email } open={ open } setOpen={ setOpen } />
-            <DataGridComponent
+            <DataGridComponent  
+                title='Emails'
                 columns={[
                     ...columns,
                     { 
@@ -56,10 +57,8 @@ const Email = ({ emailState }: Prop) =>
                         ),
                     }
                 ]}
+                addAction={ false }
                 rows={ emailState.emails }
-                onCellClick={ () => 1 }
-                onClickAddButton={ () => 1 }
-                addButtonTooltipTitle=''
                 isLoading={ emailState.isLoading }
             />
         </div>
