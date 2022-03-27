@@ -25,9 +25,10 @@ const DataGridComponent = ({ columns, rows, onCellClick, onClickAddButton, addBu
             <Tooltip title={ addButtonTooltipTitle } placement='left-start'>
                 <IconButton 
                     sx={{ 
-                        position: 'absolute',
-                        right: 10,
-                        bottom: 50
+                        position: 'fixed',
+                        right: 50,
+                        bottom: 50,
+                        zIndex: 9999
                     }}
                     onClick={ onClickAddButton }
                 >
