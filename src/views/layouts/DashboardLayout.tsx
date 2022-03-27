@@ -14,13 +14,13 @@ import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCh
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { createStructuredSelector } from 'reselect';
-import { authSelector } from './../../redux/auth/selectors';
+import { authSelector } from 'redux/auth/selectors';
 import { connect } from 'react-redux';
-import { AuthState } from '../../types/states/auth/AuthState';
+import { AuthState } from 'types/states/auth/AuthState';
 import { ListItemButton, Tooltip, Grid, Avatar, IconButton } from '@mui/material';
-import { ACCOUNT_PATH, DASHBOARD_PATH, EMAIL_PATH, PROJECT_PATH, TESTIMONIAL_PATH } from '../../routes/path';
+import { ACCOUNT_PATH, DASHBOARD_PATH, EMAIL_PATH, PROJECT_PATH, TESTIMONIAL_PATH } from 'routes/path';
 import { useNavigate } from 'react-router-dom';
-import AccountMenu from '../../components/dashboard/AccountMenu';
+import AccountMenu from 'components/dashboard/AccountMenu';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRounded';
 
