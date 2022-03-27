@@ -1,40 +1,49 @@
 import React from 'react';
 import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar } from '@mui/x-data-grid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { IconButton, Tooltip } from '@mui/material'
+import { IconButton, Tooltip, Typography } from '@mui/material'
 
 interface Prop {
+    title?: string,
     columns: GridColDef[],
     rows: readonly {
         [key: string]: any;
     }[],
-    onCellClick: (
+    onCellClick?: (
         params: GridCellParams, 
         event: MuiEvent<React.MouseEvent>, 
         details: GridCallbackDetails
     ) => void,
-    onClickAddButton: () => void,
+    addAction?: boolean,
+    onClickAddButton?: () => void,
     addButtonTooltipTitle: string,
     isLoading: boolean
 }
 
-const DataGridComponent = ({ columns, rows, onCellClick, onClickAddButton, addButtonTooltipTitle, isLoading }: Prop) => 
+const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAction = true, onClickAddButton, addButtonTooltipTitle, isLoading }: Prop) => 
 {
     return (
         <div>
-            <Tooltip title={ addButtonTooltipTitle } placement='left-start'>
-                <IconButton 
-                    sx={{ 
-                        position: 'fixed',
-                        right: 50,
-                        bottom: 50,
-                        zIndex: 9999
-                    }}
-                    onClick={ onClickAddButton }
-                >
-                    <AddCircleIcon sx={{ fontSize: '4rem' }} />
-                </IconButton>
-            </Tooltip>
+            {
+                addAction && (
+                    <Tooltip title={ addButtonTooltipTitle } placement='left-start'>
+                        <IconButton 
+                            sx={{ 
+                                position: 'fixed',
+                                right: 50,
+                                bottom: 50,
+                                zIndex: 9999
+                            }}
+                            onClick={ onClickAddButton }
+                        >
+                            <AddCircleIcon sx={{ fontSize: '4rem' }} />
+                        </IconButton>
+                    </Tooltip>
+                )
+            }
+            {
+                title && <Typography variant="h3" py={ 2 } pl={ 2 }>{ title }</Typography>
+            }
             <DataGrid 
                 rows={ rows } 
                 columns={ columns } 
