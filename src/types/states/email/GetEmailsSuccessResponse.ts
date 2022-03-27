@@ -1,13 +1,8 @@
 import { TypeOverride } from "../../TypeOverride";
 import { ApiBaseResponse } from "../ApiBaseResponse";
+import { EmailItemType } from "./EmailState";
 
 export type GetEmailsSuccessResponse = TypeOverride<ApiBaseResponse, {
-    data: {
-        id: number,
-        views: number,
-        likes: number,
-        sent_mails: number,
-        projects: number
-    };
+    data: EmailItemType[];
     message: string;
 }>;
