@@ -8,7 +8,8 @@ import {
     EDIT_PROJECT_PATH, 
     TESTIMONIAL_PATH, 
     CREATE_TESTIMONIAL_PATH, 
-    EDIT_TESTIMONIAL_PATH 
+    EDIT_TESTIMONIAL_PATH, 
+    EMAIL_PATH
 } from './../routes/path';
 
 export type Path = 
@@ -20,7 +21,8 @@ export type Path =
     | typeof EDIT_PROJECT_PATH
     | typeof TESTIMONIAL_PATH
     | typeof CREATE_TESTIMONIAL_PATH
-    | typeof EDIT_TESTIMONIAL_PATH;
+    | typeof EDIT_TESTIMONIAL_PATH
+    | typeof EMAIL_PATH;
 
 export type Route =
 {
