@@ -19,7 +19,7 @@ const renderCell = (params: GridRenderCellParams<any, any, any>) => (
 
 const renderCellRate = (params: GridRenderCellParams<any, any, any>) => (
     <Tooltip title='Edit' placement='top-start'>
-		<Rating name="half-rating" value={ params.value } precision={ 0.5 } />
+		<Rating name="half-rating" value={ parseFloat(params.value) } precision={ 0.5 } />
     </Tooltip>
 );
 

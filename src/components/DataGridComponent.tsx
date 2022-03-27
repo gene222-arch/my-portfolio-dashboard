@@ -41,7 +41,8 @@ const DataGridComponent = ({ columns, rows, onCellClick, onClickAddButton, addBu
                 autoHeight
                 loading={ isLoading }
                 onCellClick={ onCellClick }
-                rowsPerPageOptions={ [5, 10, 15] }
+                pageSize={ 5 }
+                rowsPerPageOptions={ [5, 10, 15, 20, 100] }
                 components={{ Toolbar: GridToolbar }}
                 density='comfortable'
                 sx={{
