@@ -7,3 +7,4 @@ export const EDIT_PROJECT_PATH = '/projects/:id/edit';
 export const TESTIMONIAL_PATH = '/testimonials';
 export const CREATE_TESTIMONIAL_PATH = '/testimonials/create-new-testimonial';
 export const EDIT_TESTIMONIAL_PATH = '/testimonials/:id/edit';
+export const EMAIL_PATH = '/emails';

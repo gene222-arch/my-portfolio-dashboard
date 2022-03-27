@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Route } from "../types/route";
+import { Route } from "types/route";
 import { 
     DASHBOARD_PATH, 
     LOGIN_PATH, 
@@ -9,20 +9,22 @@ import {
     EDIT_PROJECT_PATH, 
     TESTIMONIAL_PATH, 
     CREATE_TESTIMONIAL_PATH, 
-    EDIT_TESTIMONIAL_PATH 
+    EDIT_TESTIMONIAL_PATH, 
+    EMAIL_PATH
 } from './path';
 
-const DashboardPage = lazy(() => import('./../views/app/DashboardPage'));
-const LoginPage = lazy(() => import('./../views/app/LoginPage'));
-const AccountPage = lazy(() => import('./../views/app/AccountPage'));
+const DashboardPage = lazy(() => import('views/app/DashboardPage'));
+const LoginPage = lazy(() => import('views/app/LoginPage'));
+const AccountPage = lazy(() => import('views/app/AccountPage'));
 /** Project */
-const ProjectPage = lazy(() => import('./../views/app/project'));
-const CreateProjectPage = lazy(() => import('../views/app/project/CreateProjectPage'));
-const EditProjectPage = lazy(() => import('../views/app/project/EditProjectPage'));
+const ProjectPage = lazy(() => import('views/app/project'));
+const CreateProjectPage = lazy(() => import('views/app/project/CreateProjectPage'));
+const EditProjectPage = lazy(() => import('views/app/project/EditProjectPage'));
 /** Testimonial */
-const TestimonialPage = lazy(() => import('./../views/app/testimonial'));
-const CreateTestimonialPage = lazy(() => import('../views/app/testimonial/CreateTestimonialPage'));
-const EditTestimonialPage = lazy(() => import('../views/app/testimonial/EditTestimonialPage'));
+const TestimonialPage = lazy(() => import('views/app/testimonial'));
+const CreateTestimonialPage = lazy(() => import('views/app/testimonial/CreateTestimonialPage'));
+const EditTestimonialPage = lazy(() => import('views/app/testimonial/EditTestimonialPage'));
+const EmailPage = lazy(() => import('views/app/email'));
 
 export const publicRoutes: Route[] = 
 [
@@ -46,6 +48,12 @@ export const privateRoutes: Route[] =
         key: 'Dashboard',
         path: DASHBOARD_PATH,
         component: DashboardPage,
+        private: true
+    },
+    {
+        key: 'Email',
+        path: EMAIL_PATH,
+        component: EmailPage,
         private: true
     },
     {

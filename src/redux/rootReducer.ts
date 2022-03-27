@@ -4,6 +4,7 @@ import persistCombineReducers from "redux-persist/es/persistCombineReducers";
 import storage from 'redux-persist/lib/storage';
 import { browserHistory } from '../utils/browserHistory';
 import auth from './auth/reducer';
+import email from './email/reducer';
 import pageReport from './page-report/reducer';
 import project from './project/reducer';
 import testimonial from './testimonial/reducer';
@@ -21,6 +22,7 @@ const persistConfig = {
 const reducers = {
     router: routerReducer,
     auth,
+    email,
     pageReport,
     project,
     testimonial,
