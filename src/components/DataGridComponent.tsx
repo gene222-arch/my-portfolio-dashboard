@@ -25,9 +25,10 @@ const DataGridComponent = ({ columns, rows, onCellClick, onClickAddButton, addBu
             <Tooltip title={ addButtonTooltipTitle } placement='left-start'>
                 <IconButton 
                     sx={{ 
-                        position: 'absolute',
-                        right: 10,
-                        bottom: 50
+                        position: 'fixed',
+                        right: 50,
+                        bottom: 50,
+                        zIndex: 9999
                     }}
                     onClick={ onClickAddButton }
                 >
@@ -40,7 +41,8 @@ const DataGridComponent = ({ columns, rows, onCellClick, onClickAddButton, addBu
                 autoHeight
                 loading={ isLoading }
                 onCellClick={ onCellClick }
-                rowsPerPageOptions={ [5, 10, 15] }
+                pageSize={ 5 }
+                rowsPerPageOptions={ [5, 10, 15, 20, 100] }
                 components={{ Toolbar: GridToolbar }}
                 density='comfortable'
                 sx={{
