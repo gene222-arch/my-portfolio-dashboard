@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { Card, CardContent, Typography, Box, FormHelperText } from '@mui/material';
+import { Card, CardContent, Typography, Box, FormHelperText, SxProps } from '@mui/material';
 import FileUploadButton from './FileUploadButton';
 import { ProjectState } from 'types/states/project/ProjectState';
 import SaveCancelButtons from '../SaveCancelButtons';
+import CloseIcon from '@mui/icons-material/Close';
 import { getError, hasError } from 'utils/errorHandling';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from 'redux/project/selectors';
@@ -18,6 +19,16 @@ const imgStyle: React.CSSProperties = {
     width: '100%',
     cursor: 'pointer',
     borderRadius: '0.5rem'
+};
+
+const closeIconSx: SxProps = { 
+    position: 'absolute',
+    right: 5,
+    top: 15,
+    '&:hover': {
+        color: 'tomato',
+        cursor: 'pointer'
+    }
 };
 
 interface Prop {
@@ -75,31 +86,43 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
         {
             if (! files.length) return;
 
-            Object.keys(files).map(async (key) => 
-            {
-                const file = files[parseInt(key)];
-                const fd = new FormData();
-                fd.set('image', file);
-
-                const result: UploadFileSuccessResponse = await API.upload(fd);
-
-                if (result.status === 'success')
+            try {
+                Object.keys(files).map(async (key) => 
                 {
-                    setProject({
-                        ...project,
-                        sub_image_urls: [
-                            ...project.sub_image_urls,
-                            result.data.url
-                        ]
-                    });
-                } 
-            });
+                    const file = files[parseInt(key)];
+                    const fd = new FormData();
+                    fd.set('image', file);
+    
+                    const result: UploadFileSuccessResponse = await API.upload(fd);
+    
+                    if (result.status === 'success')
+                    {
+                        setProject({
+                            ...project,
+                            sub_image_urls: [
+                                ...project.sub_image_urls,
+                                result.data.url
+                            ]
+                        });
+                    } 
+                });
+            } catch (error) {
+                console.log(error);
+            }
         }
 
         setIsSubImageUploading(false);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setProject({ ...project, [e.target.name]: e.target.value });
+
+    const handleRemoveSubImage = (imageUrl: string) => 
+    {
+        setProject({
+            ...project,
+            sub_image_urls: project.sub_image_urls.filter(img => img !== imageUrl)
+        });
+    }
 
     return (
         <Container maxWidth="lg">
@@ -204,16 +227,28 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                             <CardContent>
                                 <Grid container spacing={1} alignItems='center'>
                                 {
-                                    Boolean(project.sub_image_urls.length) && (
+                                    Boolean(project.sub_image_urls.length) 
+                                    ? (
                                         project.sub_image_urls.map((img, index) => 
-                                            <Grid xs={ 12 } sm={ 6 } md={ 3 } key={ index } item>
+                                            <Grid xs={ 12 } sm={ 6 } md={ 3 } key={ index } item sx={{ position: 'relative' }}>
                                                 <img 
                                                     key={ index } 
                                                     src={ img }
                                                     style={ imgStyle }
                                                 />
+                                                <CloseIcon onClick={ () => handleRemoveSubImage(img) } sx={ closeIconSx }/>
                                             </Grid>
                                         )
+                                    )
+                                    : (
+                                        <Grid item xs={ 12 } sx={{ textAlign: 'center' }}>
+                                            <Typography 
+                                                variant='subtitle2' 
+                                                color='GrayText'
+                                            >
+                                                Images displayed here
+                                            </Typography>
+                                        </Grid>
                                     )
                                 }
                                 </Grid>
