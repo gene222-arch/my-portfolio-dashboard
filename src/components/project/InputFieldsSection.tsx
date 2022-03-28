@@ -56,8 +56,14 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
     
                     reader.onload = (e: ProgressEvent<FileReader>) => 
                     {
-                        if (e?.target?.result) {
+                        if (e?.target?.result) 
+                        {
                             setMainImage(e.target.result as string);
+                            
+                            setProject({
+                                ...project,
+                                image_url: result.data.url
+                            });
                         }
                     };
         
@@ -77,19 +83,39 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
         {
             if (! files.length) return;
 
-            Object.keys(files).map(key => 
+            Object.keys(files).map(async (key) => 
             {
                 const file = files[parseInt(key)];
-                const reader = new FileReader();
+                const fd = new FormData();
+                fd.set('image', file);
 
-                reader.onload = (e: ProgressEvent<FileReader>) => 
+                const result: UploadFileSuccessResponse = await API.upload(fd);
+
+                if (result.status === 'success')
                 {
-                    if (e?.target?.result) {
-                        setSubImages([ ...subImages, e.target.result as string ]);
-                    }
-                };
+                    const reader = new FileReader();
+    
+                    reader.onload = (e: ProgressEvent<FileReader>) => 
+                    {
+                        if (e?.target?.result) 
+                        {
+                            setSubImages([
+                                ...subImages, 
+                                e.target.result as string
+                            ]);
 
-                reader.readAsDataURL(file);
+                            setProject({
+                                ...project,
+                                sub_image_urls: [
+                                    ...project.sub_image_urls,
+                                    result.data.url
+                                ]
+                            });
+                        }
+                    };
+        
+                    reader.readAsDataURL(file);
+                } 
             });
         }
     };
