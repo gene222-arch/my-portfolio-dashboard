@@ -4,7 +4,6 @@ import {
     GetProjectsSuccessResponse,
     CreateProjectSuccessResponse,
     CreateProjectFailedResponse,
-    UploadFilePayload,
     UploadFileSuccessResponse,
     UploadFileFailedResponse
 } from 'types/states/project';
@@ -26,10 +25,14 @@ export const store = async (payload: CreateProjectPayload): Promise<CreateProjec
         .catch((error: { response: { data: CreateProjectFailedResponse }}) => Promise.reject(error.response.data))
 };
 
-export const upload = async (image: UploadFilePayload): Promise<UploadFileSuccessResponse | UploadFileFailedResponse> => 
+export const upload = async (image: FormData): Promise<UploadFileSuccessResponse> => 
 {
     return await axiosInstance()
-        .post('/projects', { image })
+        .post('/projects/image-upload', image, {
+            headers: {
+                contentType: 'multipart/form-data'
+            }
+        })
         .then((response: { data: UploadFileSuccessResponse }) => response.data)
         .catch((error: { response: { data: UploadFileFailedResponse }}) => Promise.reject(error.response.data))
 };

@@ -3,5 +3,5 @@ export type { GetProjectsSuccessResponse } from './GetProjectsSuccessResponse';
 export type { CreateProjectSuccessResponse } from './CreateProjectSuccessResponse';
 export type { CreateProjectFailedResponse } from './CreateProjectFailedResponse';
 export type { CreateProjectPayload } from './CreateProjectPayload';
-export type { UploadFileSuccessResponse, UploadFileFailedResponse, UploadFilePayload } from './UploadFileResponse';
+export type { UploadFileSuccessResponse, UploadFileFailedResponse } from './UploadFileResponse';
 export type { ProjectState } from './ProjectState';

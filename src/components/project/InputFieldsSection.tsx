@@ -11,7 +11,8 @@ import { getError, hasError } from 'utils/errorHandling';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from 'redux/project/selectors';
 import { connect } from 'react-redux';
-import { CreateProjectPayload } from 'types/states/project';
+import { CreateProjectPayload, UploadFileSuccessResponse } from 'types/states/project';
+import * as API from 'apis/project';
 
 const imgStyle: React.CSSProperties = {
     height: '100%',
@@ -33,7 +34,7 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
     const [ mainImage, setMainImage ] = useState<string | null>(null);
     const [ subImages, setSubImages ] = useState<string[]>([]);
 
-    const handleChangeFileUpload = (e: React.ChangeEvent<HTMLInputElement>) =>
+    const handleChangeFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) =>
     {
         const { files } = e.target;
 
@@ -41,17 +42,30 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
         {
             if (! files.length) return;
         
-            const file = files[0];
-            const reader = new FileReader();
+            try {
+                const file = files[0];
+                
+                const fd = new FormData();
+                fd.set('image', file);
 
-            reader.onload = (e: ProgressEvent<FileReader>) => 
-            {
-                if (e?.target?.result) {
-                    setMainImage(e.target.result as string);
-                }
-            };
+                const result: UploadFileSuccessResponse = await API.upload(fd);
 
-            reader.readAsDataURL(file);
+                if (result.status === 'success')
+                {
+                    const reader = new FileReader();
+    
+                    reader.onload = (e: ProgressEvent<FileReader>) => 
+                    {
+                        if (e?.target?.result) {
+                            setMainImage(e.target.result as string);
+                        }
+                    };
+        
+                    reader.readAsDataURL(file);
+                } 
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 

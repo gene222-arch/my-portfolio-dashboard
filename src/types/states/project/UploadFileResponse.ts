@@ -15,7 +15,3 @@ export type UploadFileFailedResponse = TypeOverride<ApiBaseResponse, {
     };
     message: string;
 }>;
-
-export type UploadFilePayload = {
-    image: HTMLImageElement
-};
