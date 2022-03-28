@@ -1,5 +1,15 @@
-import { ProjectState } from "../../types/states/project/ProjectState";
-import { ActionType, GET_PROJECTS_FAILED, GET_PROJECTS_START, GET_PROJECTS_SUCCEEDED } from "./action.types";
+import {  
+    ProjectState
+} from "../../types/states/project";
+import { 
+    ActionType, 
+    CREATE_PROJECT_FAILED, 
+    CREATE_PROJECT_START, 
+    CREATE_PROJECT_SUCCEEDED, 
+    GET_PROJECTS_FAILED, 
+    GET_PROJECTS_START, 
+    GET_PROJECTS_SUCCEEDED 
+} from "./action.types";
 
 const isLoading = false;
 const error = undefined;
@@ -14,10 +24,18 @@ export default (state = initialState, action: ActionType) =>
 {
     switch (action.type) 
     {
+        case CREATE_PROJECT_START:
         case GET_PROJECTS_START:
             return { 
                 ...state, 
                 isLoading: true,
+                error
+            };
+
+        case CREATE_PROJECT_SUCCEEDED:
+            return {
+                ...state,
+                isLoading: false,
                 error
             };
 
@@ -29,6 +47,7 @@ export default (state = initialState, action: ActionType) =>
                 error
             };
 
+        case CREATE_PROJECT_FAILED:
         case GET_PROJECTS_FAILED:
             return {
                 ...state,
