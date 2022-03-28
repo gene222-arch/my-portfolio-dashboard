@@ -3,7 +3,6 @@ import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import { Card, CardContent, Typography, Box, FormHelperText } from '@mui/material';
-import { useState } from 'react';
 import FileUploadButton from './FileUploadButton';
 import { ProjectState } from 'types/states/project/ProjectState';
 import SaveCancelButtons from '../SaveCancelButtons';
@@ -31,9 +30,6 @@ interface Prop {
 
 const InputFieldsSection = ({ projectState: { error }, actionText, project, setProject, onSubmit, isLoading }: Prop) => 
 {
-    const [ mainImage, setMainImage ] = useState<string | null>(null);
-    const [ subImages, setSubImages ] = useState<string[]>([]);
-
     const handleChangeFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) =>
     {
         const { files } = e.target;
@@ -52,22 +48,10 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
 
                 if (result.status === 'success')
                 {
-                    const reader = new FileReader();
-    
-                    reader.onload = (e: ProgressEvent<FileReader>) => 
-                    {
-                        if (e?.target?.result) 
-                        {
-                            setMainImage(e.target.result as string);
-                            
-                            setProject({
-                                ...project,
-                                image_url: result.data.url
-                            });
-                        }
-                    };
-        
-                    reader.readAsDataURL(file);
+                    setProject({
+                        ...project,
+                        image_url: result.data.url
+                    });
                 } 
             } catch (error) {
                 console.log(error);
@@ -93,28 +77,13 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
 
                 if (result.status === 'success')
                 {
-                    const reader = new FileReader();
-    
-                    reader.onload = (e: ProgressEvent<FileReader>) => 
-                    {
-                        if (e?.target?.result) 
-                        {
-                            setSubImages([
-                                ...subImages, 
-                                e.target.result as string
-                            ]);
-
-                            setProject({
-                                ...project,
-                                sub_image_urls: [
-                                    ...project.sub_image_urls,
-                                    result.data.url
-                                ]
-                            });
-                        }
-                    };
-        
-                    reader.readAsDataURL(file);
+                    setProject({
+                        ...project,
+                        sub_image_urls: [
+                            ...project.sub_image_urls,
+                            result.data.url
+                        ]
+                    });
                 } 
             });
         }
@@ -156,7 +125,7 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                         <Card sx={{ height: '40vh' }}>
                             <CardContent>
                                 { 
-                                    !mainImage && (
+                                    !project.image_url && (
                                         <FileUploadButton 
                                             inputElementID='main_image' 
                                             onChange={ handleChangeFileUpload } 
@@ -164,9 +133,9 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                                     )
                                 }
                                 { 
-                                    mainImage && (
+                                    project.image_url && (
                                         <label htmlFor='main_image'>
-                                            <img src={ mainImage } style={ imgStyle } alt='Change Image' />
+                                            <img src={ project.image_url } style={ imgStyle } alt='Change Image' />
                                         </label>
                                     )
                                 }
@@ -214,8 +183,8 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                                     iconButtonStyle={{ marginTop: 0 }}
                                 />
                                 {
-                                    Boolean(subImages.length) && (
-                                        subImages.map((img, index) => 
+                                    Boolean(project.sub_image_urls.length) && (
+                                        project.sub_image_urls.map((img, index) => 
                                             <img 
                                                 key={ index } 
                                                 src={ img } 

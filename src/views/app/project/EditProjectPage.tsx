@@ -39,14 +39,15 @@ const EditProjectPage = ({ projectState }: Prop) =>
         {
             const project_ = projectState.projects.find(({ id: projectID }) => projectID === parseInt(id));
             
-            if (project_) {
+            if (project_) 
+            {
                 setProject({
                     title: project_.title,
                     image_url: project_.image_url,
                     website_url: project_.website_url,
                     description: project_.description,
                     client_feedback: project_.client_feedback,
-                    sub_image_urls: []
+                    sub_image_urls: project_.images.map(img => img.image_url)
                 });
             }
         }
