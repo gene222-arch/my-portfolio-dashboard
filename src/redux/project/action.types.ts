@@ -1,9 +1,12 @@
-import { CreateProjectPayload } from "types/states/project/CreateProjectPayload";
 import { 
     GetProjectsFailedResponse,
     GetProjectsSuccessResponse,
+    CreateProjectPayload,
     CreateProjectSuccessResponse,
-    CreateProjectFailedResponse
+    CreateProjectFailedResponse,
+    UpdateProjectPayload,
+    UpdateProjectSuccessResponse,
+    UpdateProjectFailedResponse
 } from "../../types/states/project";
 
 export const GET_PROJECTS_START = 'GET_PROJECTS_START';
@@ -12,6 +15,9 @@ export const GET_PROJECTS_FAILED = 'GET_PROJECTS_FAILED';
 export const CREATE_PROJECT_START = 'CREATE_PROJECT_START';
 export const CREATE_PROJECT_SUCCEEDED = 'CREATE_PROJECT_SUCCEEDED';
 export const CREATE_PROJECT_FAILED = 'CREATE_PROJECT_FAILED';
+export const UPDATE_PROJECT_START = 'UPDATE_PROJECT_START';
+export const UPDATE_PROJECT_SUCCEEDED = 'UPDATE_PROJECT_SUCCEEDED';
+export const UPDATE_PROJECT_FAILED = 'UPDATE_PROJECT_FAILED';
 
 export type ActionType = 
     | { type: undefined }
@@ -20,4 +26,7 @@ export type ActionType =
     | { type: typeof CREATE_PROJECT_FAILED, payload: CreateProjectFailedResponse }
     | { type: typeof GET_PROJECTS_START }
     | { type: typeof GET_PROJECTS_SUCCEEDED, payload: GetProjectsSuccessResponse }
-    | { type: typeof GET_PROJECTS_FAILED, payload: GetProjectsFailedResponse };
+    | { type: typeof GET_PROJECTS_FAILED, payload: GetProjectsFailedResponse }
+    | { type: typeof UPDATE_PROJECT_START, payload: UpdateProjectPayload }
+    | { type: typeof UPDATE_PROJECT_SUCCEEDED, payload: UpdateProjectSuccessResponse }
+    | { type: typeof UPDATE_PROJECT_FAILED, payload: UpdateProjectFailedResponse };

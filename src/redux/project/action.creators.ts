@@ -3,7 +3,10 @@ import {
     GetProjectsSuccessResponse, 
     GetProjectsFailedResponse,
     CreateProjectSuccessResponse,
-    CreateProjectFailedResponse
+    CreateProjectFailedResponse,
+    UpdateProjectPayload,
+    UpdateProjectSuccessResponse,
+    UpdateProjectFailedResponse
 } from 'types/states/project';
 import { 
     ActionType, 
@@ -12,7 +15,10 @@ import {
     GET_PROJECTS_FAILED, 
     CREATE_PROJECT_START, 
     CREATE_PROJECT_SUCCEEDED, 
-    CREATE_PROJECT_FAILED 
+    CREATE_PROJECT_FAILED, 
+    UPDATE_PROJECT_START,
+    UPDATE_PROJECT_SUCCEEDED,
+    UPDATE_PROJECT_FAILED
 } from './action.types';
 
 export const createProjectStart = (payload: CreateProjectPayload): ActionType => ({
@@ -41,5 +47,20 @@ export const getProjectsSucceeded = (payload: GetProjectsSuccessResponse): Actio
 
 export const getProjectsFailed = (payload: GetProjectsFailedResponse): ActionType => ({
     type: GET_PROJECTS_FAILED,
+    payload
+});
+
+export const updateProjectStart = (payload: UpdateProjectPayload): ActionType => ({
+    type: UPDATE_PROJECT_START,
+    payload
+});
+
+export const updateProjectSucceeded = (payload: UpdateProjectSuccessResponse): ActionType => ({
+    type: UPDATE_PROJECT_SUCCEEDED,
+    payload
+});
+
+export const updateProjectFailed = (payload: UpdateProjectFailedResponse): ActionType => ({
+    type: UPDATE_PROJECT_FAILED,
     payload
 });
