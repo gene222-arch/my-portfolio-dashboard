@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Container from '@mui/material/Container'
 import InputFieldsSection from '../../../components/project/InputFieldsSection'
-import { ProjectItemType, ProjectState } from '../../../types/states/project/ProjectState';
+import { ProjectState } from '../../../types/states/project/ProjectState';
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from './../../../redux/project/selectors';
@@ -35,14 +35,17 @@ const EditProjectPage = ({ projectState }: Prop) =>
 
     useEffect(() => 
     {
-        if (id) {
+        if (id) 
+        {
             const project_ = projectState.projects.find(({ id: projectID }) => projectID === parseInt(id));
+            
             if (project_) {
                 setProject({
                     title: project_.title,
                     image_url: project_.image_url,
                     website_url: project_.website_url,
                     description: project_.description,
+                    client_feedback: project_.client_feedback,
                     sub_image_urls: []
                 });
             }
