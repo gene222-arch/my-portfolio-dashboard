@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, IconButton, Tooltip, SxProps } from '@mui/material';
+import { Box, IconButton, Tooltip, SxProps, CircularProgress } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 const boxSx: SxProps = { 
@@ -26,10 +26,11 @@ const photoIconSx: SxProps = {
 interface Prop {
     inputElementID: string,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
-    iconButtonStyle?: SxProps
+    iconButtonStyle?: SxProps,
+    loading: boolean
 }
 
-const FileUploadButton = ({ inputElementID, onChange, iconButtonStyle }: Prop) => 
+const FileUploadButton = ({ inputElementID, onChange, iconButtonStyle, loading }: Prop) => 
 {
     return (
         <Box sx={ boxSx }>
@@ -39,7 +40,11 @@ const FileUploadButton = ({ inputElementID, onChange, iconButtonStyle }: Prop) =
                     ...iconButtonStyle
                 }}>
                     <label htmlFor={ inputElementID }>
-                        <AddPhotoAlternateIcon sx={ photoIconSx } />
+                        { 
+                            loading 
+                                ? <CircularProgress sx={ photoIconSx } />
+                                : <AddPhotoAlternateIcon sx={ photoIconSx } />
+                        }
                     </label>
                 </IconButton>
             </Tooltip>
@@ -50,6 +55,7 @@ const FileUploadButton = ({ inputElementID, onChange, iconButtonStyle }: Prop) =
                 multiple
                 style={ inputFileStyle }
                 onChange={ onChange }
+                disabled={ loading }
             />
         </Box>
     )

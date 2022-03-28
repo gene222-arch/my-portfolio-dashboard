@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
@@ -16,7 +16,8 @@ import * as API from 'apis/project';
 const imgStyle: React.CSSProperties = {
     height: '100%',
     width: '100%',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    borderRadius: '0.5rem'
 };
 
 interface Prop {
@@ -30,8 +31,12 @@ interface Prop {
 
 const InputFieldsSection = ({ projectState: { error }, actionText, project, setProject, onSubmit, isLoading }: Prop) => 
 {
+    const [ isMainImageUploading, setIsMainImageUploading ] = useState(false);
+    const [ isSubImageUploading, setIsSubImageUploading ] = useState(false);
+
     const handleChangeFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) =>
     {
+        setIsMainImageUploading(true);
         const { files } = e.target;
 
         if (files)
@@ -57,10 +62,13 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                 console.log(error);
             }
         }
+
+        setIsMainImageUploading(false);
     };
 
     const handleMultipleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => 
     {
+        setIsSubImageUploading(true);
         const { files } = e.target;
 
         if (files)
@@ -87,6 +95,8 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                 } 
             });
         }
+
+        setIsSubImageUploading(false);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setProject({ ...project, [e.target.name]: e.target.value });
@@ -123,12 +133,17 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                     </Grid>
                     <Grid item xs={ 12 } sm={ 8 }>
                         <Card sx={{ height: '40vh' }}>
-                            <CardContent>
+                            <CardContent sx={{ height: '100%', position: 'relative' }}>
                                 { 
-                                    !project.image_url && (
+                                    project.image_url && (
                                         <FileUploadButton 
                                             inputElementID='main_image' 
                                             onChange={ handleChangeFileUpload } 
+                                            iconButtonStyle={{ 
+                                                position: 'absolute',
+                                                top: 13
+                                            }}
+                                            loading={ isMainImageUploading }
                                         />
                                     )
                                 }
@@ -181,19 +196,27 @@ const InputFieldsSection = ({ projectState: { error }, actionText, project, setP
                                     inputElementID='sub_image'
                                     onChange={ handleMultipleFileUpload }
                                     iconButtonStyle={{ marginTop: 0 }}
+                                    loading={ isSubImageUploading }
                                 />
+                            </CardContent>
+                        </Card>
+                        <Card sx={{ mt: 1 }}>
+                            <CardContent>
+                                <Grid container spacing={1} alignItems='center'>
                                 {
                                     Boolean(project.sub_image_urls.length) && (
                                         project.sub_image_urls.map((img, index) => 
-                                            <img 
-                                                key={ index } 
-                                                src={ img } 
-                                                width={ 100 } 
-                                                height={ 100 } 
-                                            />
+                                            <Grid xs={ 12 } sm={ 6 } md={ 3 } key={ index } item>
+                                                <img 
+                                                    key={ index } 
+                                                    src={ img }
+                                                    style={ imgStyle }
+                                                />
+                                            </Grid>
                                         )
                                     )
                                 }
+                                </Grid>
                             </CardContent>
                         </Card>
                     </Grid>
