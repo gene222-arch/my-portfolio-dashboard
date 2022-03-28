@@ -3,7 +3,10 @@ import {
     GetProjectsFailedResponse, 
     GetProjectsSuccessResponse,
     CreateProjectSuccessResponse,
-    CreateProjectFailedResponse
+    CreateProjectFailedResponse,
+    UploadFilePayload,
+    UploadFileSuccessResponse,
+    UploadFileFailedResponse
 } from 'types/states/project';
 import axiosInstance from '../utils/axiosInstance';
 
@@ -21,4 +24,12 @@ export const store = async (payload: CreateProjectPayload): Promise<CreateProjec
         .post('/projects', payload)
         .then((response: { data: CreateProjectSuccessResponse }) => response.data)
         .catch((error: { response: { data: CreateProjectFailedResponse }}) => Promise.reject(error.response.data))
+};
+
+export const upload = async (image: UploadFilePayload): Promise<UploadFileSuccessResponse | UploadFileFailedResponse> => 
+{
+    return await axiosInstance()
+        .post('/projects', { image })
+        .then((response: { data: UploadFileSuccessResponse }) => response.data)
+        .catch((error: { response: { data: UploadFileFailedResponse }}) => Promise.reject(error.response.data))
 };
