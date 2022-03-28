@@ -4,4 +4,9 @@ export type { CreateProjectSuccessResponse } from './CreateProjectSuccessRespons
 export type { CreateProjectFailedResponse } from './CreateProjectFailedResponse';
 export type { CreateProjectPayload } from './CreateProjectPayload';
 export type { UploadFileSuccessResponse, UploadFileFailedResponse } from './UploadFileResponse';
+export type {
+    UpdateProjectSuccessResponse,
+    UpdateProjectFailedResponse,
+    UpdateProjectPayload
+} from './UpdateProjectResponse';
 export type { ProjectState } from './ProjectState';

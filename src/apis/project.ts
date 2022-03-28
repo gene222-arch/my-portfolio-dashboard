@@ -5,7 +5,10 @@ import {
     CreateProjectSuccessResponse,
     CreateProjectFailedResponse,
     UploadFileSuccessResponse,
-    UploadFileFailedResponse
+    UploadFileFailedResponse,
+    UpdateProjectPayload,
+    UpdateProjectSuccessResponse,
+    UpdateProjectFailedResponse
 } from 'types/states/project';
 import axiosInstance from '../utils/axiosInstance';
 
@@ -23,6 +26,14 @@ export const store = async (payload: CreateProjectPayload): Promise<CreateProjec
         .post('/projects', payload)
         .then((response: { data: CreateProjectSuccessResponse }) => response.data)
         .catch((error: { response: { data: CreateProjectFailedResponse }}) => Promise.reject(error.response.data))
+};
+
+export const update = async (payload: UpdateProjectPayload): Promise<UpdateProjectSuccessResponse | UpdateProjectFailedResponse> => 
+{
+    return await axiosInstance()
+        .put(`/projects/${ payload.project_id }`, payload)
+        .then((response: { data: UpdateProjectSuccessResponse }) => response.data)
+        .catch((error: { response: { data: UpdateProjectFailedResponse }}) => Promise.reject(error.response.data))
 };
 
 export const upload = async (image: FormData): Promise<UploadFileSuccessResponse> => 
