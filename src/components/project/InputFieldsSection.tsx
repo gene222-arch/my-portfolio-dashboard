@@ -2,11 +2,16 @@ import React from 'react';
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Typography, Box, FormHelperText } from '@mui/material';
 import { useState } from 'react';
 import FileUploadButton from './FileUploadButton';
-import { ProjectItemType } from '../../types/states/project/ProjectState';
+import { ProjectState } from 'types/states/project/ProjectState';
 import SaveCancelButtons from '../SaveCancelButtons';
+import { getError, hasError } from 'utils/errorHandling';
+import { createStructuredSelector } from 'reselect';
+import { projectSelector } from 'redux/project/selectors';
+import { connect } from 'react-redux';
+import { CreateProjectPayload } from 'types/states/project';
 
 const imgStyle: React.CSSProperties = {
     height: '100%',
@@ -15,14 +20,15 @@ const imgStyle: React.CSSProperties = {
 };
 
 interface Prop {
+    projectState: ProjectState,
     actionText: string,
-    project: ProjectItemType,
-    setProject: React.Dispatch<React.SetStateAction<ProjectItemType>>,
+    project: CreateProjectPayload,
+    setProject: React.Dispatch<React.SetStateAction<CreateProjectPayload>>,
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
     isLoading: boolean
 }
 
-const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoading }: Prop) => 
+const InputFieldsSection = ({ projectState: { error }, actionText, project, setProject, onSubmit, isLoading }: Prop) => 
 {
     const [ mainImage, setMainImage ] = useState<string | null>(null);
     const [ subImages, setSubImages ] = useState<string[]>([]);
@@ -89,6 +95,8 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoadi
                             variant='filled'
                             onChange={ handleChange }
                             value={ project.title }
+                            error={ hasError(error, 'title') }
+                            helperText={ getError(error, 'title') }
                         />
                         <TextField
                             name='description'
@@ -100,6 +108,8 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoadi
                             rows={ 9 }
                             onChange={ handleChange }
                             value={ project.description }
+                            error={ hasError(error, 'description') }
+                            helperText={ getError(error, 'description') }
                         />
                     </Grid>
                     <Grid item xs={ 12 } sm={ 8 }>
@@ -120,6 +130,12 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoadi
                                         </label>
                                     )
                                 }
+                                <FormHelperText 
+                                    error={ hasError(error, 'image_url') }
+                                    sx={{ textAlign: 'center' }}
+                                >
+                                    { getError(error, 'image_url') }
+                                </FormHelperText>
                             </CardContent>
                         </Card>
                     </Grid>
@@ -131,6 +147,8 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoadi
                             variant='filled'
                             onChange={ handleChange }
                             value={ project?.website_url || '' }
+                            error={ hasError(error, 'website_url') }
+                            helperText={ getError(error, 'website_url') }
                         />
                     </Grid>
                     <Grid item xs={ 12 } sm={ 12 }>
@@ -143,6 +161,8 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoadi
                             rows={ 5 }
                             onChange={ handleChange }
                             value={ project.client_feedback }
+                            error={ hasError(error, 'client_feedback') }
+                            helperText={ getError(error, 'client_feedback') }
                         />
                     </Grid>
                     <Grid item xs={ 12 } sm={ 12 }>
@@ -177,4 +197,8 @@ const InputFieldsSection = ({ actionText, project, setProject, onSubmit, isLoadi
     )
 };
 
-export default InputFieldsSection;
+const mapStateToProps = createStructuredSelector({
+    projectState: projectSelector
+});
+
+export default connect(mapStateToProps)(InputFieldsSection);

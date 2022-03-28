@@ -6,17 +6,15 @@ import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from './../../../redux/project/selectors';
 import { connect } from 'react-redux';
+import { CreateProjectPayload } from 'types/states/project';
 
-const projectDefault: ProjectItemType = 
+const projectDefault: CreateProjectPayload = 
 {
-    id: 0,
-    image_url: '',
     title: '',
+    image_url: '',
+    website_url: '',
     description: '',
-    client_feedback: '',
-    created_at: '', 
-    updated_at: '',
-    images: []
+    sub_image_urls: []
 };
 
 interface Prop {
@@ -27,7 +25,7 @@ const EditProjectPage = ({ projectState }: Prop) =>
 {
     const { id } = useParams<string>();
 
-    const [ project, setProject ] = useState(projectDefault);
+    const [ project, setProject ] = useState<CreateProjectPayload>(projectDefault);
 
     const handleClickSubmit = (e: React.FormEvent<HTMLFormElement>) => 
     {
@@ -40,7 +38,13 @@ const EditProjectPage = ({ projectState }: Prop) =>
         if (id) {
             const project_ = projectState.projects.find(({ id: projectID }) => projectID === parseInt(id));
             if (project_) {
-                setProject(project_);
+                setProject({
+                    title: project_.title,
+                    image_url: project_.image_url,
+                    website_url: project_.website_url,
+                    description: project_.description,
+                    sub_image_urls: []
+                });
             }
         }
     }, []);
