@@ -29,11 +29,17 @@ const renderCellBody = (params: GridRenderCellParams<any, any, any>) => (
     </Tooltip>
 );
 
+const renderCellImage = (params: GridRenderCellParams<any, any, any>) => (
+    <Tooltip title='Edit' placement='top-start'>
+        <img src={ params.value } style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.5rem' }} />
+    </Tooltip>
+);
+
 const columns: GridColDef[] = [
     { field: 'id', hide: true, renderCell },
+    { field: 'avatar_url', headerName: 'Avatar', width: 300, renderCell: renderCellImage },
     { field: 'name', headerName: 'Name', width: 300, renderCell },
     { field: 'body', headerName: 'Body', width: 500, renderCell: renderCellBody },
-    { field: 'profession', headerName: 'Profession', width: 300, renderCell },
     { field: 'rate', headerName: 'Rate', width: 300, renderCell: renderCellRate },
 ];
 
@@ -65,6 +71,7 @@ const TestimonialPage = ({ testimonialState }: Prop) =>
 
     return (
         <DataGridComponent 
+            title='Testimonials'
             columns={ columns }
             rows={ testimonialState.testimonials }
             onCellClick={ handleOnCellClick }

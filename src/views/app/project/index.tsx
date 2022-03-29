@@ -59,6 +59,7 @@ const ProjectPage = ({ projectState }: Prop) =>
 
     return (
         <DataGridComponent 
+            title='Projects'
             columns={ columns }
             rows={ projectState.projects }
             onCellClick={ handleOnCellClick }
