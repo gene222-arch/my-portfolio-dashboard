@@ -1,8 +1,13 @@
-import { CreateTestimonialFailedResponse } from '../../types/states/testimonial/CreateTestimonialFailedResponse';
-import { CreateTestimonialSuccessResponse } from '../../types/states/testimonial/CreateTestimonialSuccessResponse';
-import { GetTestimonialsFailedResponse } from '../../types/states/testimonial/GetTestimonialsFailedResponse';
-import { GetTestimonialsSuccessResponse } from '../../types/states/testimonial/GetTestimonialsSuccessResponse';
-import { TestimonialItemType } from '../../types/states/testimonial/TestimonialState';
+import { 
+    CreateTestimonialFailedResponse,
+    CreateTestimonialSuccessResponse,
+    DeleteTestimonialsFailedResponse,
+    DeleteTestimonialsPayload,
+    DeleteTestimonialsSuccessResponse,
+    GetTestimonialsFailedResponse,
+    GetTestimonialsSuccessResponse,
+    TestimonialItemType,
+} from 'types/states/testimonial';
 import { 
     ActionType, 
     GET_TESTIMONIALS_START, 
@@ -13,7 +18,10 @@ import {
     CREATE_TESTIMONIAL_FAILED,
     EDIT_TESTIMONIAL_START,
     EDIT_TESTIMONIAL_SUCCEEDED,
-    EDIT_TESTIMONIAL_FAILED
+    EDIT_TESTIMONIAL_FAILED,
+    DELETE_TESTIMONIALS_START,
+    DELETE_TESTIMONIALS_SUCCEEDED,
+    DELETE_TESTIMONIALS_FAILED
 } from './action.types';
 
 export const createTestimonialStart = (payload: TestimonialItemType): ActionType => ({
@@ -28,6 +36,21 @@ export const createTestimonialSucceeded = (payload: CreateTestimonialSuccessResp
 
 export const createTestimonialFailed = (payload: CreateTestimonialFailedResponse): ActionType => ({
     type: CREATE_TESTIMONIAL_FAILED,
+    payload
+});
+
+export const deleteTestimonialsStart = (payload: DeleteTestimonialsPayload): ActionType => ({
+    type: DELETE_TESTIMONIALS_START,
+    payload
+});
+
+export const deleteTestimonialsSucceeded = (payload: DeleteTestimonialsPayload): ActionType => ({
+    type: DELETE_TESTIMONIALS_SUCCEEDED,
+    payload
+});
+
+export const deleteTestimonialsFailed = (payload: DeleteTestimonialsFailedResponse): ActionType => ({
+    type: DELETE_TESTIMONIALS_FAILED,
     payload
 });
 

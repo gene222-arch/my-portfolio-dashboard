@@ -12,7 +12,8 @@ const defaultTestimonial: TestimonialItemType = {
     avatar_url: '',
     body: '',
     profession: '',
-    rate: 0
+    rate: 0,
+    id: 0
 };
 
 interface Prop {
