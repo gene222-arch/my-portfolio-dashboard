@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar, DataGridProps } from '@mui/x-data-grid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { IconButton, Tooltip, Typography } from '@mui/material'
 
@@ -17,10 +17,11 @@ interface Prop {
     addAction?: boolean,
     onClickAddButton?: () => void,
     addButtonTooltipTitle?: string,
-    isLoading: boolean
+    isLoading: boolean,
+    props: DataGridProps
 }
 
-const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAction = true, onClickAddButton, addButtonTooltipTitle, isLoading }: Prop) => 
+const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAction = true, onClickAddButton, addButtonTooltipTitle, isLoading, props }: Prop) => 
 {
     return (
         <div>
@@ -45,6 +46,7 @@ const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAct
                 title && <Typography variant="h3" py={ 2 } pl={ 2 }>{ title }</Typography>
             }
             <DataGrid 
+                { ...props }
                 rows={ rows } 
                 columns={ columns } 
                 autoHeight
