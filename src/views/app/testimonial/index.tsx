@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridRenderCellParams } from '@mui/x-data-grid';
 import { useDispatch, connect } from 'react-redux';
-import { getTestimonialsStart } from './../../../redux/testimonial/action.creators';
+import { deleteTestimonialsStart, getTestimonialsStart } from './../../../redux/testimonial/action.creators';
 import { createStructuredSelector } from 'reselect';
 import { testimonialSelector } from './../../../redux/testimonial/selectors';
 import { TestimonialState } from '../../../types/states/testimonial/TestimonialState';
-import { Rating, Tooltip } from '@mui/material'
+import { Rating, Tooltip, Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { CREATE_TESTIMONIAL_PATH, EDIT_TESTIMONIAL_PATH } from '../../../routes/path';
 import DataGridComponent from '../../../components/DataGridComponent';
@@ -52,6 +52,8 @@ const TestimonialPage = ({ testimonialState }: Prop) =>
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [ testimonialIDs, setTestimonialIDs ] = useState<number[]>([]);
+
     const handleOnCellClick = (
         params: GridCellParams, 
         event: MuiEvent<React.MouseEvent>, 
@@ -78,6 +80,12 @@ const TestimonialPage = ({ testimonialState }: Prop) =>
             onClickAddButton={ handleClickAdd }
             addButtonTooltipTitle='Create Testimonial'
             isLoading={ testimonialState.isLoading }
+            checkboxSelection
+            onSelectionModelChange={ e => setTestimonialIDs(e as number[]) }
+            deleteAction
+            onClickDeleteButton={ () => dispatch(deleteTestimonialsStart({
+                testimonial_ids: testimonialIDs
+            }))}
         />
     );
 };

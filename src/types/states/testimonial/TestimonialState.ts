@@ -1,5 +1,5 @@
 export type TestimonialItemType = {
-    id?: number,
+    id: number,
     name: string,
     avatar_url: string,
     body: string,

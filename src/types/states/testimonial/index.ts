@@ -4,4 +4,9 @@ export type { EditTestimonialFailedResponse } from './EditTestimonialFailedRespo
 export type { EditTestimonialSuccessResponse } from './EditTestimonialSuccessResponse';
 export type { GetTestimonialsSuccessResponse } from './GetTestimonialsSuccessResponse';
 export type { GetTestimonialsFailedResponse } from './GetTestimonialsFailedResponse';
-export type { TestimonialState } from './TestimonialState';
+export type {  
+    DeleteTestimonialsPayload,
+    DeleteTestimonialsSuccessResponse,
+    DeleteTestimonialsFailedResponse
+} from './DeleteTestimonialResponse';
+export type { TestimonialState, TestimonialItemType } from './TestimonialState';
