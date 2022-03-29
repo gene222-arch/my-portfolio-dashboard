@@ -18,7 +18,7 @@ interface Prop {
     onClickAddButton?: () => void,
     addButtonTooltipTitle?: string,
     isLoading: boolean,
-    props: DataGridProps
+    props?: DataGridProps
 }
 
 const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAction = true, onClickAddButton, addButtonTooltipTitle, isLoading, props }: Prop) => 
