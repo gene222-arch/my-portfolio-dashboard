@@ -1,9 +1,33 @@
 import { all, take, put, call } from 'redux-saga/effects';
-import { GetProjectsFailedResponse, GetProjectsSuccessResponse } from '../../types/states/project';
+import { 
+    CreateProjectFailedResponse,
+    CreateProjectPayload,
+    CreateProjectSuccessResponse,
+    GetProjectsFailedResponse, 
+    GetProjectsSuccessResponse, 
+    UpdateProjectFailedResponse, 
+    UpdateProjectPayload,
+    UpdateProjectSuccessResponse
+} from '../../types/states/project';
 import { getErrorMessage } from '../../utils/errorHandling';
-import { getProjectsFailed, getProjectsSucceeded } from './action.creators';
-import { GET_PROJECTS_START } from './action.types';
+import { createProjectFailed, createProjectSucceeded, getProjectsFailed, getProjectsSucceeded, updateProjectFailed, updateProjectSucceeded } from './action.creators';
+import { CREATE_PROJECT_START, GET_PROJECTS_START, UPDATE_PROJECT_START } from './action.types';
 import * as API from './../../apis/project';
+import { push } from 'redux-first-history';
+import { PROJECT_PATH } from 'routes/path';
+
+function* createProjectSaga(payload: CreateProjectPayload)
+{
+    try {
+        const result: CreateProjectSuccessResponse = yield call(API.store, payload);
+        
+        yield put(createProjectSucceeded(result));
+        yield put(push(PROJECT_PATH));
+    } catch (error) {
+        const errorMessage: CreateProjectFailedResponse = getErrorMessage(error);
+        yield put(createProjectFailed(errorMessage));
+    }
+}
 
 function* getProjectsSaga()
 {
@@ -17,6 +41,28 @@ function* getProjectsSaga()
     }
 }
 
+function* updateProjectSaga(payload: UpdateProjectPayload)
+{
+    try {
+        const result: UpdateProjectSuccessResponse = yield call(API.update, payload);
+        
+        yield put(updateProjectSucceeded(result));
+        yield put(push(PROJECT_PATH));
+    } catch (error) {
+        const errorMessage: UpdateProjectFailedResponse = getErrorMessage(error);
+        yield put(updateProjectFailed(errorMessage));
+    }
+}
+
+function* createProjectWatcher()
+{
+    while(true)
+    {
+        const { payload } = yield take(CREATE_PROJECT_START);
+        yield call(createProjectSaga, payload);
+    }
+}
+
 function* getProjectsWatcher()
 {
     while(true)
@@ -26,9 +72,20 @@ function* getProjectsWatcher()
     }
 }
 
+function* updateProjectWatcher()
+{
+    while(true)
+    {
+        const { payload } = yield take(UPDATE_PROJECT_START);
+        yield call(updateProjectSaga, payload);
+    }
+}
+
 export default function* ()
 {
     yield all([
-        getProjectsWatcher()
+        createProjectWatcher(),
+        getProjectsWatcher(),
+        updateProjectWatcher()
     ]);
 }

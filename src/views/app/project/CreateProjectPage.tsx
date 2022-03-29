@@ -4,18 +4,17 @@ import InputFieldsSection from '../../../components/project/InputFieldsSection'
 import { ProjectItemType, ProjectState } from '../../../types/states/project/ProjectState';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from './../../../redux/project/selectors';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { createProjectStart } from 'redux/project/action.creators';
+import { CreateProjectPayload } from 'types/states/project';
 
-const projectDefault: ProjectItemType = 
+const projectDefault: CreateProjectPayload = 
 {
-    id: 0,
-    image_url: '',
     title: '',
+    image_url: '',
+    website_url: '',
     description: '',
-    client_feedback: '',
-    created_at: '', 
-    updated_at: '',
-    images: []
+    sub_image_urls: []
 };
 
 interface Prop {
@@ -24,12 +23,13 @@ interface Prop {
 
 const CreateProjectPage = ({ projectState }: Prop) => 
 {
-    const [ project, setProject ] = useState(projectDefault);
+    const dispatch = useDispatch();
+    const [ project, setProject ] = useState<CreateProjectPayload>(projectDefault);
 
     const handleClickSubmit = (e: React.FormEvent<HTMLFormElement>) => 
     {
         e.preventDefault();
-        window.alert('Saved');
+        dispatch(createProjectStart(project))
     };
 
     return (
