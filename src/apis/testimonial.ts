@@ -8,6 +8,7 @@ import { EditTestimonialSuccessResponse } from '../types/states/testimonial/Edit
 import { EditTestimonialFailedResponse } from '../types/states/testimonial/EditTestimonialFailedResponse';
 import { UploadAvatarSuccessResponse } from 'types/states/testimonial/UploadAvatarSuccessResponse';
 import { UploadAvatarFailedResponse } from 'types/states/testimonial/UploadAvatarFailedResponse';
+import { DeleteTestimonialsFailedResponse, DeleteTestimonialsPayload, DeleteTestimonialsSuccessResponse } from 'types/states/testimonial/DeleteTestimonialResponse';
 
 export const getTestimonials = async (): Promise<GetTestimonialsSuccessResponse | GetTestimonialsFailedResponse> => 
 {
@@ -43,4 +44,14 @@ export const update = async (payload: Partial<TestimonialItemType>): Promise<Edi
         .put(`/testimonials/${ payload.id }`, payload)
         .then((response: { data: EditTestimonialFailedResponse }) => response.data)
         .catch((error: { response: { data: EditTestimonialSuccessResponse }}) => Promise.reject(error.response.data))
+};
+
+export const destroy = async (payload: DeleteTestimonialsPayload): Promise<DeleteTestimonialsSuccessResponse> => 
+{
+    return await axiosInstance()
+        .delete(`/testimonials`, {
+            data: payload
+        })
+        .then((response: { data: DeleteTestimonialsSuccessResponse }) => response.data)
+        .catch((error: { response: { data: DeleteTestimonialsFailedResponse }}) => Promise.reject(error.response.data))
 };
