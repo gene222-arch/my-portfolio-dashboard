@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react';
 import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar, DataGridProps } from '@mui/x-data-grid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { IconButton, Tooltip, Typography } from '@mui/material'
+import { IconButton, Tooltip, Typography, Grid, Button } from '@mui/material';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 interface Prop {
     title?: ReactNode,
@@ -17,6 +18,8 @@ interface Prop {
     addAction?: boolean,
     onClickAddButton?: () => void,
     addButtonTooltipTitle?: string,
+    deleteAction?: boolean,
+    onClickDeleteButton?: () => void,
     isLoading: boolean,
 }
 
@@ -28,6 +31,8 @@ const DataGridComponent = ({
     addAction = true, 
     onClickAddButton, 
     addButtonTooltipTitle, 
+    deleteAction,
+    onClickDeleteButton,
     isLoading, 
     ...props 
 }: Prop & Omit<React.ComponentProps<typeof DataGrid>, "classes">) => 
@@ -51,9 +56,24 @@ const DataGridComponent = ({
                     </Tooltip>
                 )
             }
-            {
-                title && <Typography variant="h3" py={ 2 } pl={ 2 }>{ title }</Typography>
-            }
+            <Grid container spacing={1} alignItems='center' justifyContent='space-between'>
+                {
+                    title && (
+                        <Grid item>
+                            <Typography variant="h3" py={ 2 } pl={ 2 }>{ title }</Typography>
+                        </Grid>
+                    )
+                }
+                {
+                    deleteAction && (
+                        <Grid item>
+                            <Button variant="outlined" color="error" onClick={ onClickDeleteButton }>
+                                <RemoveCircleIcon />
+                            </Button>
+                        </Grid>
+                    )
+                }
+            </Grid>
             <DataGrid 
                 { ...props }
                 rows={ rows } 
