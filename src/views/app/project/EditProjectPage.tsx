@@ -5,11 +5,13 @@ import { ProjectState } from '../../../types/states/project/ProjectState';
 import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from './../../../redux/project/selectors';
-import { connect } from 'react-redux';
-import { CreateProjectPayload } from 'types/states/project';
+import { connect, useDispatch } from 'react-redux';
+import { CreateProjectPayload, UpdateProjectPayload } from 'types/states/project';
+import { updateProjectStart } from 'redux/project/action.creators';
 
-const projectDefault: CreateProjectPayload = 
+const projectDefault: UpdateProjectPayload = 
 {
+    project_id: 0,
     title: '',
     image_url: '',
     website_url: '',
@@ -23,21 +25,26 @@ interface Prop {
 
 const EditProjectPage = ({ projectState }: Prop) => 
 {
+    const dispatch = useDispatch();
     const { id } = useParams<string>();
 
-    const [ project, setProject ] = useState<CreateProjectPayload>(projectDefault);
+    const [ project, setProject ] = useState<Omit<UpdateProjectPayload, 'project_id'>>(projectDefault);
 
     const handleClickSubmit = (e: React.FormEvent<HTMLFormElement>) => 
     {
         e.preventDefault();
-        window.alert('Updated');
+        
+        if (id) {
+            dispatch(updateProjectStart({ ...project, project_id: parseInt(id)}));
+        }
     };
 
     useEffect(() => 
     {
         if (id) 
         {
-            const project_ = projectState.projects.find(({ id: projectID }) => projectID === parseInt(id));
+            const projectID = parseInt(id);
+            const project_ = projectState.projects.find(({ id: projectID }) => projectID === projectID);
             
             if (project_) 
             {

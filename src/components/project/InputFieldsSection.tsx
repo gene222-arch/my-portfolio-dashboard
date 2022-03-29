@@ -11,7 +11,7 @@ import { getError, hasError } from 'utils/errorHandling';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from 'redux/project/selectors';
 import { connect } from 'react-redux';
-import { CreateProjectPayload, UploadFileSuccessResponse } from 'types/states/project';
+import { CreateProjectPayload, UpdateProjectPayload, UploadFileSuccessResponse } from 'types/states/project';
 import * as API from 'apis/project';
 
 const imgStyle: React.CSSProperties = {
@@ -31,16 +31,25 @@ const closeIconSx: SxProps = {
     }
 };
 
-interface Prop {
+
+interface Prop<T> {
     projectState: ProjectState,
     actionText: string,
-    project: CreateProjectPayload,
-    setProject: React.Dispatch<React.SetStateAction<CreateProjectPayload>>,
+    project: T,
+    setProject: React.Dispatch<React.SetStateAction<T>>,
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void,
     isLoading: boolean
 }
 
-const InputFieldsSection = ({ projectState: { error }, actionText, project, setProject, onSubmit, isLoading }: Prop) => 
+const InputFieldsSection = <T extends CreateProjectPayload | UpdateProjectPayload> 
+({ 
+    projectState: { error }, 
+    actionText, 
+    project, 
+    setProject, 
+    onSubmit, 
+    isLoading 
+}: Prop<T>) => 
 {
     const [ isMainImageUploading, setIsMainImageUploading ] = useState(false);
     const [ isSubImageUploading, setIsSubImageUploading ] = useState(false);
