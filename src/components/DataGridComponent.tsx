@@ -60,7 +60,7 @@ const DataGridComponent = ({
                 columns={ columns } 
                 autoHeight
                 loading={ isLoading }
-                onCellClick={ onCellClick }
+                onCellDoubleClick={ onCellClick }
                 pageSize={ 5 }
                 rowsPerPageOptions={ [5, 10, 15, 20, 100] }
                 components={{ Toolbar: GridToolbar }}
