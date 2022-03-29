@@ -18,10 +18,19 @@ interface Prop {
     onClickAddButton?: () => void,
     addButtonTooltipTitle?: string,
     isLoading: boolean,
-    props?: DataGridProps
 }
 
-const DataGridComponent = ({ title, columns, rows, onCellClick = () => 1, addAction = true, onClickAddButton, addButtonTooltipTitle, isLoading, props }: Prop) => 
+const DataGridComponent = ({ 
+    title, 
+    columns, 
+    rows, 
+    onCellClick = () => 1, 
+    addAction = true, 
+    onClickAddButton, 
+    addButtonTooltipTitle, 
+    isLoading, 
+    ...props 
+}: Prop & Omit<React.ComponentProps<typeof DataGrid>, "classes">) => 
 {
     return (
         <div>
