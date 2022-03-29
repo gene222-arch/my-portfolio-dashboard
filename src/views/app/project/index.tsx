@@ -17,10 +17,16 @@ const renderCell = (params: GridRenderCellParams<any, any, any>) => (
     </Tooltip>
 );
 
+const renderCellImage = (params: GridRenderCellParams<any, any, any>) => (
+    <Tooltip title='Edit' placement='top-start'>
+        <img src={ params.value } style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '0.5rem' }} />
+    </Tooltip>
+);
+
 const columns: GridColDef[] = [
     { field: 'id', hide: true, renderCell },
     { field: 'title', headerName: 'Title', width: 315, renderCell },
-    { field: 'image_url', headerName: 'Image', width: 315, renderCell },
+    { field: 'image_url', headerName: 'Image', width: 315, renderCell: renderCellImage },
     { field: 'description', headerName: 'Description', width: 500, renderCell },
     { field: 'created_at', headerName: 'Date Created', width: 200, renderCell },
 ];
@@ -53,6 +59,7 @@ const ProjectPage = ({ projectState }: Prop) =>
 
     return (
         <DataGridComponent 
+            title='Projects'
             columns={ columns }
             rows={ projectState.projects }
             onCellClick={ handleOnCellClick }
