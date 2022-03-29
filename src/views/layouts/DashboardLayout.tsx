@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import { AuthState } from 'types/states/auth/AuthState';
 import { ListItemButton, Tooltip, Grid, Avatar, IconButton } from '@mui/material';
 import { ACCOUNT_PATH, DASHBOARD_PATH, EMAIL_PATH, PROJECT_PATH, TESTIMONIAL_PATH } from 'routes/path';
-import { useNavigate } from 'react-router-dom';
+import { matchPath, useNavigate } from 'react-router-dom';
 import AccountMenu from 'components/dashboard/AccountMenu';
 import ChatRoundedIcon from '@mui/icons-material/ChatRounded';
 import MarkEmailUnreadRoundedIcon from '@mui/icons-material/MarkEmailUnreadRounded';
@@ -188,9 +188,12 @@ const DashboardLayout = ({ authState, children }: Prop) =>
                                     '&:hover': {
                                         transition: 'border-right .25s',
                                         borderRight: `0.25rem solid #ec5b53`
-                                    }
+                                    },
+                                    transition: matchPath(window.location.pathname, path) ? 'border-right .25s' : '',
+                                    borderRight: matchPath(window.location.pathname, path) ? `0.25rem solid #ec5b53` : ''
                                 }}
                                 onClick={ () => navigate(path) }
+                                selected={ Boolean(matchPath(window.location.pathname, path)) }
                             >
                                 <ListItemIcon>
                                     <Icon />
