@@ -3,7 +3,10 @@ import {
     GetEmailsFailedResponse, 
     DestroyEmailsPayload, 
     DestroyEmailsSuccessResponse,
-    DestroyEmailsFailedResponse
+    DestroyEmailsFailedResponse,
+    RestoreEmailsSuccessResponse,
+    RestoreEmailsPayload,
+    RestoreEmailsFailedResponse
 } from "types/states/email";
 import { GetEmailPayload } from "types/states/email/GetEmailPayload";
 import { 
@@ -13,7 +16,10 @@ import {
     GET_EMAILS_FAILED, 
     DESTROY_EMAILS_START, 
     DESTROY_EMAILS_SUCCEEDED,
-    DESTROY_EMAILS_FAILED
+    DESTROY_EMAILS_FAILED,
+    RESTORE_EMAILS_START,
+    RESTORE_EMAILS_SUCCEEDED,
+    RESTORE_EMAILS_FAILED
 } from './action.types';
 
 export const destroyEmailsStart = (payload: DestroyEmailsPayload): ActionType => ({
@@ -43,5 +49,20 @@ export const getEmailsSucceeded = (payload: GetEmailsSuccessResponse): ActionTyp
 
 export const getEmailsFailed = (payload: GetEmailsFailedResponse): ActionType => ({
     type: GET_EMAILS_FAILED,
+    payload
+});
+
+export const restoreEmailsStart = (payload: RestoreEmailsPayload): ActionType => ({
+    type: RESTORE_EMAILS_START,
+    payload
+});
+
+export const restoreEmailsSucceeded = (payload: RestoreEmailsSuccessResponse): ActionType => ({
+    type: RESTORE_EMAILS_SUCCEEDED,
+    payload
+});
+
+export const restoreEmailsFailed = (payload: RestoreEmailsFailedResponse): ActionType => ({
+    type: RESTORE_EMAILS_FAILED,
     payload
 });

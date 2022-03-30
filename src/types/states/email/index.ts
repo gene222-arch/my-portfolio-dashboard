@@ -5,3 +5,8 @@ export type {
     DestroyEmailsFailedResponse,
     DestroyEmailsPayload
 } from './DestroyEmailsResponse';
+export type {  
+    RestoreEmailsSuccessResponse,
+    RestoreEmailsFailedResponse,
+    RestoreEmailsPayload
+} from './RestoreEmailsResponse';

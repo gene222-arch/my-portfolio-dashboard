@@ -4,10 +4,13 @@ import {
     DestroyEmailsPayload,
     DestroyEmailsSuccessResponse,
     GetEmailsFailedResponse, 
-    GetEmailsSuccessResponse 
+    GetEmailsSuccessResponse, 
+    RestoreEmailsFailedResponse, 
+    RestoreEmailsPayload,
+    RestoreEmailsSuccessResponse
 } from 'types/states/email';
 import { getErrorMessage } from 'utils/errorHandling';
-import { destroyEmailsFailed, destroyEmailsSucceeded, getEmailsFailed, getEmailsSucceeded } from './action.creators';
+import { destroyEmailsFailed, destroyEmailsSucceeded, getEmailsFailed, getEmailsSucceeded, restoreEmailsFailed, restoreEmailsSucceeded } from './action.creators';
 import { DESTROY_EMAILS_START, GET_EMAILS_START } from './action.types';
 import * as API from 'apis/email';
 import { GetEmailPayload } from 'types/states/email/GetEmailPayload';
@@ -36,6 +39,18 @@ function* getEmailsSaga(payload: GetEmailPayload)
     }
 }
 
+function* restoreEmailsSaga(payload: RestoreEmailsPayload)
+{
+    try {
+        const result: RestoreEmailsSuccessResponse = yield call(API.restoreMultiple, payload);
+        
+        yield put(restoreEmailsSucceeded(result));
+    } catch (error) {
+        const errorMessage:RestoreEmailsFailedResponse = getErrorMessage(error);
+        yield put(restoreEmailsFailed(errorMessage));
+    }
+}
+
 function* destroyEmailsWatcher()
 {
     while(true)
@@ -54,10 +69,20 @@ function* getEmailsWatcher()
     }
 }
 
+function* restoreEmailsWatcher()
+{
+    while(true)
+    {
+        const { payload } = yield take(DESTROY_EMAILS_START);
+        yield call(restoreEmailsSaga, payload);
+    }
+}
+
 export default function* ()
 {
     yield all([
         destroyEmailsWatcher(),
-        getEmailsWatcher()
+        getEmailsWatcher(),
+        restoreEmailsWatcher()
     ]);
 }
