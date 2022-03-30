@@ -11,6 +11,7 @@ import {
     UpdateProjectFailedResponse
 } from 'types/states/project';
 import axiosInstance from '../utils/axiosInstance';
+import { DestroyProjectsFailedResponse, DestroyProjectsPayload, DestroyProjectsSuccessResponse } from 'types/states/project/DestroyProjectsResponse';
 
 export const getProjects = async (): Promise<GetProjectsSuccessResponse | GetProjectsFailedResponse> => 
 {
@@ -46,4 +47,14 @@ export const upload = async (image: FormData): Promise<UploadFileSuccessResponse
         })
         .then((response: { data: UploadFileSuccessResponse }) => response.data)
         .catch((error: { response: { data: UploadFileFailedResponse }}) => Promise.reject(error.response.data))
+};
+
+export const destroyMultiple = async (payload: DestroyProjectsPayload): Promise<DestroyProjectsSuccessResponse | DestroyProjectsFailedResponse> => 
+{
+    return await axiosInstance()
+        .delete('/projects', {
+            data: payload
+        })
+        .then((response: { data: DestroyProjectsSuccessResponse }) => response.data)
+        .catch((error: { response: { data: DestroyProjectsFailedResponse }}) => Promise.reject(error.response.data))
 };
