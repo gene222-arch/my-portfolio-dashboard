@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridRenderCellParams } from '@mui/x-data-grid';
 import { useDispatch, connect } from 'react-redux';
-import { getProjectsStart } from './../../../redux/project/action.creators';
+import { destroyProjectsStart, getProjectsStart } from './../../../redux/project/action.creators';
 import { createStructuredSelector } from 'reselect';
 import { projectSelector } from './../../../redux/project/selectors';
 import { ProjectState } from '../../../types/states/project/ProjectState';
@@ -40,6 +40,8 @@ const ProjectPage = ({ projectState }: Prop) =>
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [ projectIDs, setProjectIDs ] = useState<number[]>([]);
+
     const handleOnCellClick = (
         params: GridCellParams, 
         event: MuiEvent<React.MouseEvent>, 
@@ -66,6 +68,10 @@ const ProjectPage = ({ projectState }: Prop) =>
             onClickAddButton={ handleClickAdd }
             addButtonTooltipTitle='Create Project'
             isLoading={ projectState.isLoading }
+            deleteAction
+            checkboxSelection
+            onSelectionModelChange={ e => setProjectIDs(e as number[]) }
+            onClickDeleteButton={ () => dispatch(destroyProjectsStart({ project_ids: projectIDs })) }
         />
     );
 };
