@@ -5,7 +5,10 @@ import {
     DESTROY_EMAILS_SUCCEEDED, 
     GET_EMAILS_FAILED, 
     GET_EMAILS_START, 
-    GET_EMAILS_SUCCEEDED 
+    GET_EMAILS_SUCCEEDED, 
+    RESTORE_EMAILS_FAILED, 
+    RESTORE_EMAILS_START,
+    RESTORE_EMAILS_SUCCEEDED
 } from "./action.types";
 import { destroyEmails } from "./utils";
 
@@ -24,6 +27,7 @@ export default (state = initialState, action: ActionType) =>
     {
         case DESTROY_EMAILS_START:
         case GET_EMAILS_START:
+        case RESTORE_EMAILS_START:
             return { 
                 ...state, 
                 isLoading: true,
@@ -46,7 +50,15 @@ export default (state = initialState, action: ActionType) =>
                 error
             };
 
+        case RESTORE_EMAILS_SUCCEEDED:
+            return {
+                ...state,
+                isLoading: false,
+                error
+            };
+
         case GET_EMAILS_FAILED:
+        case RESTORE_EMAILS_FAILED:
             return {
                 ...state,
                 isLoading: false,
