@@ -3,7 +3,7 @@ import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import DataGridComponent from 'components/DataGridComponent';
 import { useEffect, useState } from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { destroyEmailsStart, getEmailsStart } from 'redux/email/action.creators';
+import { destroyEmailsStart, getEmailsStart, restoreEmailsStart } from 'redux/email/action.creators';
 import { emailSelector } from 'redux/email/selectors';
 import { createStructuredSelector } from 'reselect';
 import { EmailItemType, EmailState } from 'types/states/email/EmailState';
@@ -36,13 +36,14 @@ const Email = ({ emailState }: Prop) =>
 
     useEffect(() => {
         dispatch(getEmailsStart({ archive: isArchived }));
-    }, []);
+    }, [isArchived]);
 
     return (
         <div>
             <DisplayEmailContentDialog email={ email } open={ open } setOpen={ setOpen } />
             <DataGridComponent  
                 title='Emails'
+                rows={ emailState.emails }
                 columns={[
                     ...columns,
                     { 
@@ -63,7 +64,10 @@ const Email = ({ emailState }: Prop) =>
                 checkboxSelection
                 onSelectionModelChange={ e => setEmailIDs(e as number[]) }
                 onClickDeleteButton={ () => dispatch(destroyEmailsStart({ ids: emailIDs })) }
-                rows={ emailState.emails }
+                restoreAction
+                onClickRestoreButton={ () => dispatch(restoreEmailsStart({ ids: emailIDs })) }
+                isArchived={ isArchived }
+                setIsArchived={ setIsArchived }
                 isLoading={ emailState.isLoading }
             />
         </div>

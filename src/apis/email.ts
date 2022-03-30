@@ -6,7 +6,7 @@ import axiosInstance from '../utils/axiosInstance';
 export const index = async ({ archive }: GetEmailPayload): Promise<GetEmailsSuccessResponse | GetEmailsFailedResponse> => 
 {
     return await axiosInstance()
-        .get(`/emails?archives=${ archive }`)
+        .get(`/emails${ archive ? '?archives=true' : ''}`)
         .then((response: { data: GetEmailsSuccessResponse }) => response.data)
         .catch((error: { response: { data: GetEmailsFailedResponse }}) => Promise.reject(error.response.data))
 };

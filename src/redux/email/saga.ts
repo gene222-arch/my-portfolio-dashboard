@@ -11,7 +11,7 @@ import {
 } from 'types/states/email';
 import { getErrorMessage } from 'utils/errorHandling';
 import { destroyEmailsFailed, destroyEmailsSucceeded, getEmailsFailed, getEmailsSucceeded, restoreEmailsFailed, restoreEmailsSucceeded } from './action.creators';
-import { DESTROY_EMAILS_START, GET_EMAILS_START } from './action.types';
+import { DESTROY_EMAILS_START, GET_EMAILS_START, RESTORE_EMAILS_START } from './action.types';
 import * as API from 'apis/email';
 import { GetEmailPayload } from 'types/states/email/GetEmailPayload';
 
@@ -73,7 +73,7 @@ function* restoreEmailsWatcher()
 {
     while(true)
     {
-        const { payload } = yield take(DESTROY_EMAILS_START);
+        const { payload } = yield take(RESTORE_EMAILS_START);
         yield call(restoreEmailsSaga, payload);
     }
 }

@@ -1,15 +1,12 @@
 import React, { ReactNode } from 'react';
-import { DataGrid, GridColDef, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar, DataGridProps } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams, GridCallbackDetails, MuiEvent, GridToolbar } from '@mui/x-data-grid';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { IconButton, Tooltip, Typography, Grid, Button } from '@mui/material';
+import { IconButton, Tooltip, Typography, Grid, Button, FormControlLabel, Switch, Box } from '@mui/material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import SettingsBackupRestoreIcon from '@mui/icons-material/SettingsBackupRestore';
 
 interface Prop {
     title?: ReactNode,
-    columns: GridColDef[],
-    rows: readonly {
-        [key: string]: any;
-    }[],
     onCellClick?: (
         params: GridCellParams, 
         event: MuiEvent<React.MouseEvent>, 
@@ -20,19 +17,25 @@ interface Prop {
     addButtonTooltipTitle?: string,
     deleteAction?: boolean,
     onClickDeleteButton?: () => void,
+    restoreAction?: boolean,
+    onClickRestoreButton?: () => void,
+    isArchived?: boolean,
+    setIsArchived?: React.Dispatch<React.SetStateAction<boolean>>
     isLoading: boolean,
 }
 
 const DataGridComponent = ({ 
-    title, 
-    columns, 
-    rows, 
+    title,
     onCellClick = () => 1, 
     addAction = true, 
     onClickAddButton, 
     addButtonTooltipTitle, 
     deleteAction,
     onClickDeleteButton,
+    restoreAction,
+    onClickRestoreButton,
+    isArchived,
+    setIsArchived,
     isLoading, 
     ...props 
 }: Prop & Omit<React.ComponentProps<typeof DataGrid>, "classes">) => 
@@ -56,6 +59,19 @@ const DataGridComponent = ({
                     </Tooltip>
                 )
             }
+            {
+                (typeof isArchived !== 'undefined') && (
+                    <Box sx={{ textAlign: 'right' }}>
+                        <Tooltip title='View archived emails'>
+                            <FormControlLabel 
+                                control={<Switch checked={ isArchived } 
+                                onChange={ e => setIsArchived?.(! isArchived)} />} 
+                                label="" 
+                            />
+                        </Tooltip>
+                    </Box>
+                )
+            }
             <Grid container spacing={1} alignItems='center' justifyContent='space-between'>
                 {
                     title && (
@@ -65,19 +81,30 @@ const DataGridComponent = ({
                     )
                 }
                 {
-                    deleteAction && (
+                    (restoreAction && isArchived) && (
                         <Grid item>
-                            <Button variant="outlined" color="error" onClick={ onClickDeleteButton }>
-                                <RemoveCircleIcon />
-                            </Button>
+                            <Tooltip title='Restore'>
+                                <Button variant='text' color="warning" onClick={ onClickRestoreButton }>
+                                    <SettingsBackupRestoreIcon />
+                                </Button>
+                            </Tooltip>
+                        </Grid>
+                    )
+                }
+                {
+                    (deleteAction && !isArchived) && (
+                        <Grid item>
+                            <Tooltip title='Delete'>
+                                <Button variant="text" color="error" onClick={ onClickDeleteButton }>
+                                    <RemoveCircleIcon />
+                                </Button>
+                            </Tooltip>
                         </Grid>
                     )
                 }
             </Grid>
             <DataGrid 
                 { ...props }
-                rows={ rows } 
-                columns={ columns } 
                 autoHeight
                 loading={ isLoading }
                 onCellDoubleClick={ onCellClick }
