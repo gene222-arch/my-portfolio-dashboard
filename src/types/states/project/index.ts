@@ -9,4 +9,9 @@ export type {
     UpdateProjectFailedResponse,
     UpdateProjectPayload
 } from './UpdateProjectResponse';
-export type { ProjectState } from './ProjectState';
+export type {
+    DestroyProjectsFailedResponse, 
+    DestroyProjectsPayload, 
+    DestroyProjectsSuccessResponse
+} from './DestroyProjectsResponse';
+export type { ProjectState, ProjectItemType } from './ProjectState';
