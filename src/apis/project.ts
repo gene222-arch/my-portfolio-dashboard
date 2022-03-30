@@ -8,10 +8,13 @@ import {
     UploadFileFailedResponse,
     UpdateProjectPayload,
     UpdateProjectSuccessResponse,
-    UpdateProjectFailedResponse
+    UpdateProjectFailedResponse,
+    DestroyProjectsFailedResponse, 
+    DestroyProjectsPayload, 
+    DestroyProjectsSuccessResponse
 } from 'types/states/project';
 import axiosInstance from '../utils/axiosInstance';
-import { DestroyProjectsFailedResponse, DestroyProjectsPayload, DestroyProjectsSuccessResponse } from 'types/states/project/DestroyProjectsResponse';
+
 
 export const getProjects = async (): Promise<GetProjectsSuccessResponse | GetProjectsFailedResponse> => 
 {

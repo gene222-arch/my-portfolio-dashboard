@@ -3,6 +3,9 @@ import {
     CreateProjectFailedResponse,
     CreateProjectPayload,
     CreateProjectSuccessResponse,
+    DestroyProjectsFailedResponse,
+    DestroyProjectsPayload,
+    DestroyProjectsSuccessResponse,
     GetProjectsFailedResponse, 
     GetProjectsSuccessResponse, 
     UpdateProjectFailedResponse, 
@@ -10,8 +13,8 @@ import {
     UpdateProjectSuccessResponse
 } from '../../types/states/project';
 import { getErrorMessage } from '../../utils/errorHandling';
-import { createProjectFailed, createProjectSucceeded, getProjectsFailed, getProjectsSucceeded, updateProjectFailed, updateProjectSucceeded } from './action.creators';
-import { CREATE_PROJECT_START, GET_PROJECTS_START, UPDATE_PROJECT_START } from './action.types';
+import { createProjectFailed, createProjectSucceeded, destroyProjectsFailed, destroyProjectsSucceeded, getProjectsFailed, getProjectsSucceeded, updateProjectFailed, updateProjectSucceeded } from './action.creators';
+import { CREATE_PROJECT_START, DESTROY_PROJECTS_START, GET_PROJECTS_START, UPDATE_PROJECT_START } from './action.types';
 import * as API from './../../apis/project';
 import { push } from 'redux-first-history';
 import { PROJECT_PATH } from 'routes/path';
@@ -26,6 +29,19 @@ function* createProjectSaga(payload: CreateProjectPayload)
     } catch (error) {
         const errorMessage: CreateProjectFailedResponse = getErrorMessage(error);
         yield put(createProjectFailed(errorMessage));
+    }
+}
+
+function* destroyProjectsSaga(payload: DestroyProjectsPayload)
+{
+    try {
+        const result: DestroyProjectsSuccessResponse = yield call(API.destroyMultiple, payload);
+        
+        yield put(destroyProjectsSucceeded(payload));
+        yield put(push(PROJECT_PATH));
+    } catch (error) {
+        const errorMessage: DestroyProjectsFailedResponse = getErrorMessage(error);
+        yield put(destroyProjectsFailed(errorMessage));
     }
 }
 
@@ -63,6 +79,15 @@ function* createProjectWatcher()
     }
 }
 
+function* destroyProjectsWatcher()
+{
+    while(true)
+    {
+        const { payload } = yield take(DESTROY_PROJECTS_START);
+        yield call(destroyProjectsSaga, payload);
+    }
+}
+
 function* getProjectsWatcher()
 {
     while(true)
@@ -85,6 +110,7 @@ export default function* ()
 {
     yield all([
         createProjectWatcher(),
+        destroyProjectsWatcher(),
         getProjectsWatcher(),
         updateProjectWatcher()
     ]);

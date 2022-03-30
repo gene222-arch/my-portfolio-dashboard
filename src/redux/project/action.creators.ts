@@ -6,7 +6,9 @@ import {
     CreateProjectFailedResponse,
     UpdateProjectPayload,
     UpdateProjectSuccessResponse,
-    UpdateProjectFailedResponse
+    UpdateProjectFailedResponse,
+    DestroyProjectsPayload,
+    DestroyProjectsFailedResponse
 } from 'types/states/project';
 import { 
     ActionType, 
@@ -18,7 +20,10 @@ import {
     CREATE_PROJECT_FAILED, 
     UPDATE_PROJECT_START,
     UPDATE_PROJECT_SUCCEEDED,
-    UPDATE_PROJECT_FAILED
+    UPDATE_PROJECT_FAILED,
+    DESTROY_PROJECTS_START,
+    DESTROY_PROJECTS_SUCCEEDED,
+    DESTROY_PROJECTS_FAILED
 } from './action.types';
 
 export const createProjectStart = (payload: CreateProjectPayload): ActionType => ({
@@ -33,6 +38,21 @@ export const createProjectSucceeded = (payload: CreateProjectSuccessResponse): A
 
 export const createProjectFailed = (payload: CreateProjectFailedResponse): ActionType => ({
     type: CREATE_PROJECT_FAILED,
+    payload
+});
+
+export const destroyProjectsStart = (payload: DestroyProjectsPayload): ActionType => ({
+    type: DESTROY_PROJECTS_START,
+    payload
+});
+
+export const destroyProjectsSucceeded = (payload: DestroyProjectsPayload): ActionType => ({
+    type: DESTROY_PROJECTS_SUCCEEDED,
+    payload
+});
+
+export const destroyProjectsFailed = (payload: DestroyProjectsFailedResponse): ActionType => ({
+    type: DESTROY_PROJECTS_FAILED,
     payload
 });
 

@@ -6,9 +6,14 @@ import {
     CreateProjectFailedResponse,
     UpdateProjectPayload,
     UpdateProjectSuccessResponse,
-    UpdateProjectFailedResponse
-} from "../../types/states/project";
+    UpdateProjectFailedResponse,
+    DestroyProjectsPayload,
+    DestroyProjectsFailedResponse
+} from "types/states/project";
 
+export const DESTROY_PROJECTS_START = 'DESTROY_PROJECTS_START';
+export const DESTROY_PROJECTS_SUCCEEDED = 'DESTROY_PROJECTS_SUCCEEDED';
+export const DESTROY_PROJECTS_FAILED = 'DESTROY_PROJECTS_FAILED';
 export const GET_PROJECTS_START = 'GET_PROJECTS_START';
 export const GET_PROJECTS_SUCCEEDED = 'GET_PROJECTS_SUCCEEDED';
 export const GET_PROJECTS_FAILED = 'GET_PROJECTS_FAILED';
@@ -24,6 +29,9 @@ export type ActionType =
     | { type: typeof CREATE_PROJECT_START, payload: CreateProjectPayload }
     | { type: typeof CREATE_PROJECT_SUCCEEDED, payload: CreateProjectSuccessResponse }
     | { type: typeof CREATE_PROJECT_FAILED, payload: CreateProjectFailedResponse }
+    | { type: typeof DESTROY_PROJECTS_START, payload: DestroyProjectsPayload }
+    | { type: typeof DESTROY_PROJECTS_SUCCEEDED, payload: DestroyProjectsPayload }
+    | { type: typeof DESTROY_PROJECTS_FAILED, payload: DestroyProjectsFailedResponse }
     | { type: typeof GET_PROJECTS_START }
     | { type: typeof GET_PROJECTS_SUCCEEDED, payload: GetProjectsSuccessResponse }
     | { type: typeof GET_PROJECTS_FAILED, payload: GetProjectsFailedResponse }

@@ -14,4 +14,4 @@ export type {
     DestroyProjectsPayload, 
     DestroyProjectsSuccessResponse
 } from './DestroyProjectsResponse';
-export type { ProjectState } from './ProjectState';
+export type { ProjectState, ProjectItemType } from './ProjectState';
