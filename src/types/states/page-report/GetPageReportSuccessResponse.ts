@@ -1,13 +1,8 @@
-import { TypeOverride } from "../../TypeOverride";
-import { ApiBaseResponse } from "../ApiBaseResponse";
+import { TypeOverride } from "types/TypeOverride";
+import { ApiBaseResponse } from "types/states/ApiBaseResponse";
+import { PageReport } from "./PageReportState";
 
 export type GetPageReportSuccessResponse = TypeOverride<ApiBaseResponse, {
-    data: {
-        id: number,
-        views: number,
-        likes: number,
-        sent_mails: number,
-        projects: number
-    };
+    data: PageReport;
     message: string;
 }>;

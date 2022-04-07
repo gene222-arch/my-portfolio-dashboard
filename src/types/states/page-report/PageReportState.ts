@@ -1,11 +1,14 @@
+export type PageReport = {
+    id: number;
+    likes: number;
+    views: number;
+    sent_mails: number;
+    projects: number;
+    testimonials: number;
+};
+
 export type PageReportState = {
-    pageReport: {
-        id: number,
-        likes: number,
-        views: number,
-        sent_mails: number,
-        projects: number
-    },
+    pageReport: PageReport,
     isLoading: boolean,
     error: any
 };

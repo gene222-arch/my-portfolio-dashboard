@@ -1,3 +1,3 @@
 export type { GetPageReportFailedResponse } from './GetPageReportFailedResponse';
 export type { GetPageReportSuccessResponse } from './GetPageReportSuccessResponse';
-export type { PageReportState } from './PageReportState';
+export type { PageReportState, PageReport } from './PageReportState';
