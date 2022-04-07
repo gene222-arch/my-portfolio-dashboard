@@ -84,7 +84,7 @@ const DataGridComponent = ({
                     (restoreAction && isArchived) && (
                         <Grid item>
                             <Tooltip title='Restore'>
-                                <Button variant='text' color="warning" onClick={ onClickRestoreButton }>
+                                <Button variant='text' color="warning" onClick={ onClickRestoreButton } disabled={ !props.rows.length }>
                                     <SettingsBackupRestoreIcon />
                                 </Button>
                             </Tooltip>
@@ -95,7 +95,7 @@ const DataGridComponent = ({
                     (deleteAction && !isArchived) && (
                         <Grid item>
                             <Tooltip title='Delete'>
-                                <Button variant="text" color="error" onClick={ onClickDeleteButton }>
+                                <Button variant="text" color="error" onClick={ onClickDeleteButton } disabled={ !props.rows.length }>
                                     <RemoveCircleIcon />
                                 </Button>
                             </Tooltip>

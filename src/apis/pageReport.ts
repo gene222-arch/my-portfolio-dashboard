@@ -5,7 +5,7 @@ import axiosInstance from '../utils/axiosInstance';
 export const getPageReport = async (): Promise<GetPageReportSuccessResponse | GetPageReportFailedResponse> => 
 {
     return await axiosInstance()
-        .get('/page-report')
+        .get('/page-report/1')
         .then((response: { data: GetPageReportSuccessResponse }) => response.data)
         .catch((error: { response: { data: GetPageReportFailedResponse }}) => Promise.reject(error.response.data))
 };
