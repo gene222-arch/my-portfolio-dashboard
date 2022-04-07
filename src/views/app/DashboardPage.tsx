@@ -100,13 +100,12 @@ const DashboardPage = ({ pageReportState }: Prop) =>
             <Grid container spacing={ 4 } justifyContent='center'>
 				{
 					data.map((d, index) => (
-						<Grid item xs={ 12 } sm={ 2 } key={ index }>
+						<Grid item xs={ 12 } sm={ 4 } md={ 3 } key={ index }>
 							<Card { ...d } />
 						</Grid>
 					))
 				}
             </Grid>
-			<Divider sx={{ height: '0.05rem', backgroundColor: '#FFFFFF' }} />
         </Container>
     );
 };

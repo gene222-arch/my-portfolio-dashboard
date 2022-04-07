@@ -173,7 +173,6 @@ const InputFieldSection = ({ testimonialState, actionText, testimonial, setTesti
                     </FormControl>
                     {
                         (
-                            profession &&
                             (profession === 'Other' || !professions.includes(profession))
                         ) && (
                             <TextField
