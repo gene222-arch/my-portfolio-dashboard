@@ -24,7 +24,7 @@ const AccountPage = ({ userState }: Prop) =>
         <Container maxWidth="lg">
             <Grid container spacing={1}>
                 <Grid item>
-                    <TextFields />
+                    <TextFields key={ JSON.stringify(userState) } />
                 </Grid>
                 <Grid item>
 

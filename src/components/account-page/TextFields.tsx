@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect';
 import { authSelector } from './../../redux/auth/selectors';
 import { connect, useDispatch } from 'react-redux';
 import { updateAccountDetailsStart } from '../../redux/auth/action.creators';
-import { UpdateAccountDetailsPayload } from '../../types/states/auth/UpdateAccountDetailsPayload';
 import { AuthState } from '../../types/states/auth/AuthState';
 import { User } from '../../types/states/auth/User';
 
@@ -16,7 +15,7 @@ interface Prop {
 const TextFields = ({ authState }: Prop) => 
 {
     const dispatch = useDispatch();
-    const [ user, setUser ] = useState<User>(authState.user);
+    const [ user, setUser ] = useState<User>(authState.user);    
 
     const handleClickSave = () => 
     {
