@@ -6,13 +6,14 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import PlaylistAddCheckCircleOutlinedIcon from '@mui/icons-material/PlaylistAddCheckCircleOutlined';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread';
-import { Divider, SvgIconTypeMap } from '@mui/material';
+import { SvgIconTypeMap } from '@mui/material';
 import { useDispatch, connect } from 'react-redux';
 import { getPageReportStart } from '../../redux/page-report/action.creators';
 import { createStructuredSelector } from 'reselect';
 import { pageReportSelector } from './../../redux/page-report/selectors';
 import { PageReportState } from '../../types/states/page-report/PageReportState';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
+import ConnectWithoutContactRoundedIcon from '@mui/icons-material/ConnectWithoutContactRounded';
 
 
 export type GeneralAnalytic = {
@@ -43,6 +44,11 @@ const defaultData: GeneralAnalytic[] = [
 		label: 'Views',
 		value: 0,
 		icon: RemoveRedEyeOutlinedIcon
+	},
+	{
+		label: 'Testimonials',
+		value: 0,
+		icon: ConnectWithoutContactRoundedIcon
 	}
 ];
 
@@ -80,10 +86,16 @@ const DashboardPage = ({ pageReportState }: Prop) =>
 						value: pageReport.sent_mails
 					};
 				
-				default:
+				case 'Projects':
 					return {
 						...d,
 						value: pageReport.projects
+					};
+
+				default:
+					return {
+						...d,
+						value: pageReport.testimonials
 					};
 			}
 		});
