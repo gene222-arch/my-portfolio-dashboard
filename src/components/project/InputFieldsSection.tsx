@@ -167,17 +167,15 @@ const InputFieldsSection = <T extends CreateProjectPayload | UpdateProjectPayloa
                         <Card sx={{ height: '40vh' }}>
                             <CardContent sx={{ height: '100%', position: 'relative' }}>
                                 { 
-                                    project.image_url && (
-                                        <FileUploadButton 
-                                            inputElementID='main_image' 
-                                            onChange={ handleChangeFileUpload } 
-                                            iconButtonStyle={{ 
-                                                position: 'absolute',
-                                                top: 13
-                                            }}
-                                            loading={ isMainImageUploading }
-                                        />
-                                    )
+                                    <FileUploadButton 
+                                        inputElementID='main_image' 
+                                        onChange={ handleChangeFileUpload } 
+                                        iconButtonStyle={{ 
+                                            position: 'absolute',
+                                            top: 13
+                                        }}
+                                        loading={ isMainImageUploading }
+                                    />
                                 }
                                 { 
                                     project.image_url && (
