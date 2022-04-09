@@ -114,13 +114,14 @@ const InputFieldsSection = <T extends CreateProjectPayload | UpdateProjectPayloa
                             ]
                         });
                     } 
+
+                    setIsSubImageUploading(false);
                 });
             } catch (error) {
                 console.log(error);
+                setIsSubImageUploading(false);
             }
         }
-
-        setIsSubImageUploading(false);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setProject({ ...project, [e.target.name]: e.target.value });
